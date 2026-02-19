@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Send, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
-import Logo from './logo';
+import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -10,36 +9,25 @@ interface FormData {
   message: string;
 }
 
+const packageOptions = [
+  'One Day Serenity Experience',
+  'Nourish And Revive Vitality Retreat',
+  'Detox & Rejuvenation Retreat',
+  'Golden Years Grace - Retreat for Seniors',
+  'Pain to Peace Trek',
+  'Roots & Wings Retreat',
+];
+
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    package_interest: '',
-    message: ''
+    name: '', email: '', phone: '', package_interest: '', message: '',
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const packages = [
-    'One Day Serenity Experience',
-    'Nourish And Revive Vitality Retreat',
-    'Detox & Rejuvenation Retreat',
-    'Golden Years Grace - Retreat for Seniors',
-    'Pain to Peace Trek',
-    'Roots & wings retreat'
-  ];
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,227 +35,207 @@ export default function ContactForm() {
     setIsSubmitting(true);
     setSubmitStatus(null);
     setErrorMessage('');
-
     try {
-      // Send to MongoDB via API endpoint
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
       const response = await fetch(`${apiUrl}/api/submit-query`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to submit query');
       }
-
-      const result = await response.json();
-      console.log('Query submitted successfully:', result);
-
       setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        package_interest: '',
-        message: ''
-      });
-
-      setTimeout(() => {
-        setSubmitStatus(null);
-      }, 5000);
+      setFormData({ name: '', email: '', phone: '', package_interest: '', message: '' });
+      setTimeout(() => setSubmitStatus(null), 6000);
     } catch (error) {
-      console.error('Error submitting query:', error);
       setSubmitStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to submit query. Please try again.');
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to submit. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="relative py-24 bg-gradient-to-b from-[#e8dcc4] to-[#f5f1e8] overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')]"></div>
-      </div>
+    <section id="contact" className="relative py-28 bg-gradient-to-b from-[#f0e8d4] to-[#faf7f0] overflow-hidden">
+      {/* Noise texture */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
+      />
 
-      {/* Floating Leaves */}
-      <div className="absolute top-20 left-10 text-[#8b9d7c]/10 pointer-events-none">
-        <Logo className="w-32 h-32 animate-float" />
-      </div>
-      <div className="absolute bottom-20 right-20 text-[#b8a67d]/10 pointer-events-none">
-        <Logo className="w-24 h-24 animate-float-delayed" />
-      </div>
-
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-16">
-          <div className="flex items-center justify-center mb-6">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent via-[#8b9d7c] to-[#8b9d7c]"></div>
-            <Sparkles className="w-8 h-8 text-[#8b9d7c] mx-4" />
-            <div className="h-px w-16 bg-gradient-to-l from-transparent via-[#8b9d7c] to-[#8b9d7c]"></div>
+          <div className="flex items-center justify-center gap-4 mb-5">
+            <div className="h-px w-10 bg-[#7a9b74]" />
+            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#7a9b74] uppercase">Get In Touch</span>
+            <div className="h-px w-10 bg-[#7a9b74]" />
           </div>
-          <h2 className="text-5xl md:text-6xl font-serif font-light text-[#2d3e26] mb-6">
-            Get Personalized Information
+          <h2
+            className="font-light text-[#2d3e26] text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.1] mb-5"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+          >
+            Get Personalized <em className="not-italic italic text-[#4a5e42]">Information</em>
           </h2>
-          <p className="text-lg md:text-xl text-[#5a6d52] font-light">
-            Have questions or need a customized wellness package? We're here to help.
+          <p className="text-[1rem] text-[#4a5e42] font-light max-w-xl mx-auto leading-relaxed">
+            Have questions or need a customized wellness package? We're here to help you begin your journey.
           </p>
         </div>
 
-        {/* Form Container */}
-        <div className="relative">
-          <div className="absolute -inset-2 bg-gradient-to-r from-[#8b9d7c]/10 to-[#b8a67d]/10 rounded-3xl blur-xl"></div>
-          <div className="relative bg-gradient-to-br from-[#f5f1e8] to-[#ede8dc] shadow-2xl border border-[#d4c5a0]/30 p-8 md:p-12 rounded-2xl">
-            {/* Texture Overlay */}
-            <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')] rounded-2xl"></div>
-            
-            <div className="relative">
-              {/* Success Message */}
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
+          {/* Left Info Column */}
+          <div className="lg:col-span-2 space-y-6">
+            <div>
+              <h3
+                className="text-[#2d3e26] text-[1.4rem] font-light leading-snug mb-3"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                Begin Your Wellness Journey with Us
+              </h3>
+              <p className="text-[#4a5e42] text-[0.88rem] font-light leading-relaxed">
+                Our wellness experts are ready to guide you toward the perfect retreat. Reach out and let us craft an experience that truly nurtures your mind, body, and soul.
+              </p>
+            </div>
+
+            <a href="tel:9974542678" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">📞</div>
+              <div>
+                <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Phone</div>
+                <div className="text-[0.9rem] text-[#2d3e26] font-medium">9974542678</div>
+              </div>
+            </a>
+
+            <a href="mailto:support@serenityhaven.in" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">✉️</div>
+              <div>
+                <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Email</div>
+                <div className="text-[0.88rem] text-[#2d3e26] font-medium break-all">support@serenityhaven.in</div>
+              </div>
+            </a>
+
+            <div className="p-5 bg-gradient-to-br from-[#2d3e26]/05 to-[#7a9b74]/05 border border-[#7a9b74]/15 rounded-2xl">
+              <p className="text-[0.62rem] tracking-[0.2em] text-[#7a9b74] uppercase font-semibold mb-2">Our Promise</p>
+              <p className="text-[0.84rem] text-[#4a5e42] leading-relaxed font-light">
+                At Serenity Haven, we're committed to transformative wellness experiences that nurture your mind, body, and soul in a sanctuary of natural beauty.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Form Column */}
+          <div className="lg:col-span-3">
+            <div className="bg-[#fffdf8] rounded-3xl p-7 md:p-10 border border-[#c9a96e]/15 shadow-[0_10px_50px_rgba(45,62,38,0.06)]">
+              {/* Success */}
               {submitStatus === 'success' && (
-                <div className="mb-8 p-6 bg-gradient-to-br from-[#7a9b76]/10 to-[#5a7d56]/10 border-2 border-[#7a9b76]/30 rounded-xl flex items-start gap-4 animate-slide-in">
-                  <div className="p-2 bg-[#7a9b76] rounded-full">
-                    <CheckCircle className="w-6 h-6 text-white" />
-                  </div>
+                <div className="mb-6 p-5 bg-[#7a9b74]/10 border border-[#7a9b74]/25 rounded-2xl flex items-start gap-3 animate-slide-in">
+                  <CheckCircle className="w-5 h-5 text-[#7a9b74] flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-[#2d3e26] font-semibold text-lg">Query submitted successfully!</p>
-                    <p className="text-[#5a6d52] text-sm mt-1">
-                      We'll get back to you shortly at the email address you provided.
-                    </p>
+                    <p className="text-[#2d3e26] font-semibold text-[0.92rem]">Query submitted successfully!</p>
+                    <p className="text-[#4a5e42] text-[0.8rem] mt-0.5 font-light">We'll get back to you shortly at your email address.</p>
                   </div>
                 </div>
               )}
 
-              {/* Error Message */}
+              {/* Error */}
               {submitStatus === 'error' && (
-                <div className="mb-8 p-6 bg-gradient-to-br from-red-50 to-red-100/50 border-2 border-red-200 rounded-xl flex items-start gap-4 animate-slide-in">
-                  <div className="p-2 bg-red-500 rounded-full">
-                    <AlertCircle className="w-6 h-6 text-white" />
-                  </div>
+                <div className="mb-6 p-5 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3 animate-slide-in">
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-red-900 font-semibold text-lg">Failed to submit query</p>
-                    <p className="text-red-700 text-sm mt-1">{errorMessage}</p>
+                    <p className="text-red-800 font-semibold text-[0.92rem]">Failed to submit</p>
+                    <p className="text-red-600 text-[0.8rem] mt-0.5">{errorMessage}</p>
                   </div>
                 </div>
               )}
 
-              {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name and Email Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="group">
-                    <label htmlFor="name" className="block text-sm font-semibold text-[#2d3e26] mb-3">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Row 1 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-[0.66rem] font-semibold tracking-[0.15em] text-[#2d3e26] uppercase mb-2">
                       Full Name <span className="text-[#c9704d]">*</span>
                     </label>
                     <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 bg-white/50 border-2 border-[#d4c5a0]/30 focus:border-[#8b9d7c] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] placeholder:text-[#b8a67d]/50"
-                      placeholder="Enter your full name"
+                      type="text" name="name" value={formData.name} onChange={handleChange} required
+                      placeholder="Your full name"
+                      className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] text-[0.88rem] font-light placeholder:text-[#c9a96e]/40 focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
                     />
                   </div>
-
-                  <div className="group">
-                    <label htmlFor="email" className="block text-sm font-semibold text-[#2d3e26] mb-3">
+                  <div>
+                    <label className="block text-[0.66rem] font-semibold tracking-[0.15em] text-[#2d3e26] uppercase mb-2">
                       Email Address <span className="text-[#c9704d]">*</span>
                     </label>
                     <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 bg-white/50 border-2 border-[#d4c5a0]/30 focus:border-[#8b9d7c] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] placeholder:text-[#b8a67d]/50"
-                      placeholder="your.email@example.com"
+                      type="email" name="email" value={formData.email} onChange={handleChange} required
+                      placeholder="your@email.com"
+                      className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] text-[0.88rem] font-light placeholder:text-[#c9a96e]/40 focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
                     />
                   </div>
                 </div>
 
-                {/* Phone and Package Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="group">
-                    <label htmlFor="phone" className="block text-sm font-semibold text-[#2d3e26] mb-3">
+                {/* Row 2 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-[0.66rem] font-semibold tracking-[0.15em] text-[#2d3e26] uppercase mb-2">
                       Phone Number <span className="text-[#c9704d]">*</span>
                     </label>
                     <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-5 py-4 bg-white/50 border-2 border-[#d4c5a0]/30 focus:border-[#8b9d7c] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] placeholder:text-[#b8a67d]/50"
+                      type="tel" name="phone" value={formData.phone} onChange={handleChange} required
                       placeholder="+91 9974542678"
+                      className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] text-[0.88rem] font-light placeholder:text-[#c9a96e]/40 focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
                     />
                   </div>
-
-                  <div className="group">
-                    <label htmlFor="package_interest" className="block text-sm font-semibold text-[#2d3e26] mb-3">
+                  <div>
+                    <label className="block text-[0.66rem] font-semibold tracking-[0.15em] text-[#2d3e26] uppercase mb-2">
                       Package Interest
                     </label>
                     <select
-                      id="package_interest"
-                      name="package_interest"
-                      value={formData.package_interest}
-                      onChange={handleChange}
-                      className="w-full px-5 py-4 bg-white/50 border-2 border-[#d4c5a0]/30 focus:border-[#8b9d7c] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] cursor-pointer"
+                      name="package_interest" value={formData.package_interest} onChange={handleChange}
+                      className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] text-[0.88rem] font-light cursor-pointer appearance-none focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
+                      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9b74' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
                     >
                       <option value="">Select a package (optional)</option>
-                      {packages.map((pkg, index) => (
-                        <option key={index} value={pkg}>
-                          {pkg}
-                        </option>
+                      {packageOptions.map((pkg, i) => (
+                        <option key={i} value={pkg}>{pkg}</option>
                       ))}
                     </select>
                   </div>
                 </div>
 
                 {/* Message */}
-                <div className="group">
-                  <label htmlFor="message" className="block text-sm font-semibold text-[#2d3e26] mb-3">
+                <div>
+                  <label className="block text-[0.66rem] font-semibold tracking-[0.15em] text-[#2d3e26] uppercase mb-2">
                     Your Message <span className="text-[#c9704d]">*</span>
                   </label>
                   <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={6}
-                    className="w-full px-5 py-4 bg-white/50 border-2 border-[#d4c5a0]/30 focus:border-[#8b9d7c] focus:bg-white rounded-xl outline-none transition-all duration-300 resize-none text-[#2d3e26] placeholder:text-[#b8a67d]/50"
+                    name="message" value={formData.message} onChange={handleChange} required rows={5}
                     placeholder="Tell us about your wellness goals, any specific requirements, or questions you may have..."
-                  ></textarea>
+                    className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 resize-none text-[#2d3e26] text-[0.88rem] font-light placeholder:text-[#c9a96e]/40 focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
+                  />
                 </div>
 
-                {/* Submit Button */}
-                <div>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="group w-full md:w-auto px-10 py-5 bg-gradient-to-r from-[#8b9d7c] to-[#5a7d56] hover:from-[#a0b18d] hover:to-[#6d8060] disabled:from-[#d4c5a0] disabled:to-[#b8a67d] text-white font-bold tracking-wide transition-all duration-500 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-[#8b9d7c]/30 disabled:shadow-none flex items-center justify-center gap-3"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Submitting...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        <span>Submit Query</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center gap-2.5 py-4 px-8 bg-gradient-to-r from-[#2d3e26] to-[#3a4d30] hover:from-[#3a4d30] hover:to-[#7a9b74] disabled:from-[#c9a96e]/50 disabled:to-[#b8a67d]/50 text-[#e8d5a8] text-[0.75rem] font-medium tracking-[0.2em] uppercase rounded-xl shadow-md hover:shadow-[0_8px_30px_rgba(45,62,38,0.25)] hover:-translate-y-0.5 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" strokeOpacity="0.3" />
+                        <path d="M12 2a10 10 0 0 1 10 10" />
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Send Message
+                    </>
+                  )}
+                </button>
               </form>
             </div>
           </div>
@@ -275,17 +243,11 @@ export default function ContactForm() {
       </div>
 
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
         @keyframes slide-in {
-          from { opacity: 0; transform: translateY(-10px); }
+          from { opacity: 0; transform: translateY(-8px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        .animate-float { animation: float 8s ease-in-out infinite; }
-        .animate-float-delayed { animation: float 8s ease-in-out infinite 2s; }
-        .animate-slide-in { animation: slide-in 0.4s ease-out; }
+        .animate-slide-in { animation: slide-in 0.35s ease-out both; }
       `}</style>
     </section>
   );

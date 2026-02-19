@@ -1,268 +1,199 @@
-import { Music, Trees, Users as UsersIcon, Sparkles, Heart, Wind, Leaf } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 interface ActivityCategory {
   title: string;
-  icon: React.ReactNode;
-  description: string;
+  emoji: string;
+  subtitle: string;
   activities: string[];
-  gradient: string;
-  iconBg: string;
+  wide?: boolean;
 }
 
 const activityCategories: ActivityCategory[] = [
   {
-    title: "Meditation",
-    icon: <Wind className="w-8 h-8" />,
-    description: "Transform your mind and spirit",
-    activities: [
-      "Omkara Meditation",
-      "Soham Meditation",
-      "Chakra Activations",
-      "Guided Meditations"
-    ],
-    gradient: "from-[#7a9b76] to-[#5a7d56]",
-    iconBg: "bg-[#7a9b76]/10"
+    title: 'Meditation',
+    emoji: '🧘',
+    subtitle: 'Transform your mind and spirit',
+    activities: ['Omkara Meditation', 'Soham Meditation', 'Chakra Activations', 'Guided Meditations'],
   },
   {
-    title: "Yoga",
-    icon: <Heart className="w-8 h-8" />,
-    description: "Balance body and soul",
-    activities: [
-      "Hatha Yoga",
-      "Gentle Stretch & Mobility Yoga",
-      "Pranayama & Breathwork",
-      "Guided Yoga Sessions"
-    ],
-    gradient: "from-[#8b9d7c] to-[#6d8060]",
-    iconBg: "bg-[#8b9d7c]/10"
+    title: 'Yoga',
+    emoji: '🌿',
+    subtitle: 'Balance body and soul',
+    activities: ['Hatha Yoga', 'Gentle Stretch & Mobility Yoga', 'Pranayama & Breathwork', 'Guided Yoga Sessions'],
   },
   {
-    title: "Adventures",
-    icon: <Trees className="w-8 h-8" />,
-    description: "Reconnect with nature",
-    activities: [
-      "Group Hiking",
-      "Forest Bathing Experiences",
-      "Mindful Walking Trails"
-    ],
-    gradient: "from-[#5a7d56] to-[#3f5c3c]",
-    iconBg: "bg-[#5a7d56]/10"
+    title: 'Adventures',
+    emoji: '🌲',
+    subtitle: 'Reconnect with nature',
+    activities: ['Group Hiking', 'Forest Bathing Experiences', 'Mindful Walking Trails'],
   },
   {
-    title: "Spa Therapies",
-    icon: <Sparkles className="w-8 h-8" />,
-    description: "Rejuvenate and restore",
-    activities: [
-      "Abhyagam Therapy",
-      "Swedish Massage",
-      "Belinish Treatment",
-      "Aromatherapy",
-      "Deep Tissue Massage"
-    ],
-    gradient: "from-[#b8a67d] to-[#a89668]",
-    iconBg: "bg-[#b8a67d]/10"
+    title: 'Spa Therapies',
+    emoji: '✨',
+    subtitle: 'Rejuvenate and restore your complete being',
+    activities: ['Abhyagam Therapy', 'Swedish Massage', 'Belinish Treatment', 'Aromatherapy', 'Deep Tissue Massage'],
+    wide: true,
   },
   {
-    title: "Play Full Activities",
-    icon: <UsersIcon className="w-8 h-8" />,
-    description: "Celebrate life together",
-    activities: [
-      "Bonfire Under the Stars",
-      "Moon Gazing",
-      "Musical Nights",
-      "Garden Walks",
-      "Memory & Cognitive Wellness Games",
-      "Indoor & Outdoor Recreational Activities"
-    ],
-    gradient: "from-[#c9b888] to-[#b8a67d]",
-    iconBg: "bg-[#c9b888]/10"
-  }
+    title: 'Playful Activities',
+    emoji: '🎶',
+    subtitle: 'Celebrate life together',
+    activities: ['Bonfire Under the Stars', 'Moon Gazing', 'Musical Nights', 'Garden Walks', 'Memory & Cognitive Wellness Games', 'Indoor & Outdoor Recreational Activities'],
+  },
 ];
 
-interface ActivityCardProps {
-  category: ActivityCategory;
-  index: number;
-}
-
-function ActivityCard({ category, index }: ActivityCardProps) {
-  return (
-    <div className="group relative h-full">
-      {/* Glow Effect on Hover */}
-      <div className={`absolute -inset-1 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-20 transition-all duration-700 blur-xl rounded-2xl`}></div>
-
-      <div className="relative bg-gradient-to-br from-[#f5f1e8] to-[#ede8dc] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full p-8 border border-[#d4c5a0]/30">
-        {/* Icon with Organic Background */}
-        <div className={`inline-flex p-4 rounded-2xl ${category.iconBg} backdrop-blur-sm mb-6 group-hover:scale-110 transition-transform duration-500`}>
-          <div className={`text-[#2d3e26]`}>
-            {category.icon}
-          </div>
-        </div>
-
-        {/* Title */}
-        <h3 className="text-2xl md:text-3xl font-serif font-light text-[#2d3e26] mb-3 group-hover:text-[#3a4935] transition-colors">
-          {category.title}
-        </h3>
-
-        {/* Description */}
-        <p className={`bg-gradient-to-r ${category.gradient} bg-clip-text text-transparent text-sm font-medium italic mb-6`}>
-          {category.description}
-        </p>
-
-        {/* Activities List */}
-        <ul className="space-y-3">
-          {category.activities.map((activity, idx) => (
-            <li key={idx} className="flex items-start gap-3 group/item">
-              <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${category.gradient} mt-2 flex-shrink-0 group-hover/item:scale-125 transition-transform`}></div>
-              <span className="text-[#3a4935] text-sm leading-relaxed font-light">
-                {activity}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
+const highlights = [
+  {
+    emoji: '🌬️',
+    title: 'Mindful Practices',
+    description: 'Meditation, yoga, and breathwork sessions designed to center your mind and calm your spirit',
+  },
+  {
+    emoji: '🌳',
+    title: 'Nature Immersion',
+    description: 'Forest bathing, hiking trails, and garden experiences that reconnect you with the natural world',
+  },
+  {
+    emoji: '💆',
+    title: 'Holistic Wellness',
+    description: 'Spa therapies, therapeutic treatments, and wellness sessions for complete rejuvenation',
+  },
+];
 
 export default function Activities() {
   return (
-    <section className="relative py-24 bg-gradient-to-b from-[#f5f1e8] via-[#e8dcc4] to-[#f5f1e8] overflow-hidden">
-      {/* Nature Background with Parallax */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')]"></div>
-      </div>
-
-      {/* Floating Leaves */}
-      <div className="absolute top-40 right-10 text-[#8b9d7c]/10 pointer-events-none">
-        <Leaf className="w-32 h-32 animate-float-slow" />
-      </div>
-      <div className="absolute bottom-20 left-20 text-[#b8a67d]/10 pointer-events-none">
-        <Leaf className="w-24 h-24 animate-float-medium" />
-      </div>
+    <section id="activities" className="relative py-28 bg-[#f0e8d4] overflow-hidden">
+      {/* Subtle noise texture */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <div className="flex items-center justify-center mb-6">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent via-[#8b9d7c] to-[#8b9d7c]"></div>
-            <Sparkles className="w-8 h-8 text-[#8b9d7c] mx-4 animate-pulse-slow" />
-            <div className="h-px w-16 bg-gradient-to-l from-transparent via-[#8b9d7c] to-[#8b9d7c]"></div>
+          <div className="flex items-center justify-center gap-4 mb-5">
+            <div className="h-px w-10 bg-[#7a9b74]" />
+            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#7a9b74] uppercase">
+              Transformative Experiences
+            </span>
+            <div className="h-px w-10 bg-[#7a9b74]" />
           </div>
-          <h2 className="text-5xl md:text-7xl font-serif font-light text-[#2d3e26] mb-6 leading-tight">
-            Activities at Serenity Haven
+          <h2
+            className="font-light text-[#2d3e26] text-[clamp(2.8rem,6vw,5rem)] leading-[1.1] mb-5"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+          >
+            Activities at{' '}
+            <em className="not-italic italic text-[#4a5e42]">Serenity Haven</em>
           </h2>
-          <p className="text-lg md:text-xl text-[#5a6d52] max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-[1rem] text-[#4a5e42] font-light max-w-2xl mx-auto leading-relaxed">
             Immerse yourself in transformative experiences designed to nourish your mind, body, and spirit. Deepen your journey. Connect, create, and rejuvenate.
           </p>
         </div>
 
-        {/* Activities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {activityCategories.map((category, index) => (
-            <ActivityCard key={index} category={category} index={index} />
+        {/* Activities Masonry Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
+          {activityCategories.map((cat, i) => (
+            <div
+              key={i}
+              className={`act-card group relative bg-[#fffdf8] rounded-2xl p-7 border border-[#c9a96e]/12 shadow-[0_2px_20px_rgba(45,62,38,0.04)] hover:shadow-[0_16px_50px_rgba(45,62,38,0.10)] hover:-translate-y-1.5 hover:border-[#c9a96e]/25 transition-all duration-400 overflow-hidden${cat.wide ? ' md:col-span-2' : ''}`}
+            >
+              {/* Accent top bar */}
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#7a9b74] to-[#c9a96e] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400 rounded-t-2xl" />
+
+              {/* Icon */}
+              <div className="w-13 h-13 w-[52px] h-[52px] rounded-xl bg-gradient-to-br from-[#7a9b74]/12 to-[#7a9b74]/04 border border-[#7a9b74]/15 flex items-center justify-center text-[1.35rem] mb-5 group-hover:bg-gradient-to-br group-hover:from-[#c9a96e]/20 group-hover:to-[#c9a96e]/08 group-hover:border-[#c9a96e]/30 transition-all duration-300">
+                {cat.emoji}
+              </div>
+
+              <h3
+                className="text-[#2d3e26] text-[1.55rem] font-light leading-tight mb-1.5"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                {cat.title}
+              </h3>
+              <p className="italic text-[#c9a96e] text-[0.85rem] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+                {cat.subtitle}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {cat.activities.map((act, j) => (
+                  <span
+                    key={j}
+                    className="text-[0.72rem] text-[#4a5e42] bg-[#7a9b74]/08 border border-[#7a9b74]/15 px-3 py-1.5 rounded-full font-light"
+                  >
+                    {act}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* Featured Experience Section */}
-        <div className="relative mb-20">
-          <div className="absolute -inset-2 bg-gradient-to-r from-[#8b9d7c]/20 to-[#b8a67d]/20 rounded-3xl blur-2xl"></div>
-          <div className="relative bg-gradient-to-br from-[#2d3e26] to-[#3a4935] rounded-2xl overflow-hidden shadow-2xl border border-[#b8a67d]/20">
-            {/* Texture Overlay */}
-            <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')]"></div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="relative p-10 md:p-14 text-white flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-6">
-                  <Music className="w-7 h-7 text-[#d4c5a0]" />
-                  <span className="text-[#d4c5a0] font-bold tracking-widest text-sm">FEATURED EXPERIENCE</span>
-                </div>
-                <h3 className="text-4xl md:text-5xl font-serif font-light mb-6 leading-tight text-[#f5f1e8]">
-                  Lifestyle Reset with Luxury & Recreation
-                </h3>
-                <p className="text-[#d4c5a0] text-lg leading-relaxed mb-8 font-light">
-                  Combine rejuvenating wellness practices with recreational activities that bring joy and connection. Whether you seek adventure or tranquility, movement or meditation, our curated selection ensures a balanced and fulfilling experience.
-                </p>
-                <a
-                  href="#contact"
-                  className="group w-fit px-10 py-4 bg-gradient-to-r from-[#b8a67d] to-[#a89668] hover:from-[#c9b888] hover:to-[#b8a67d] text-[#1a1f16] font-bold tracking-wide transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-[#b8a67d]/30 rounded-lg flex items-center gap-2"
-                >
-                  <span>Learn More</span>
-                  <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                </a>
-              </div>
+        {/* Featured Experience Banner */}
+        <div className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(10,18,9,0.15)] border border-[#c9a96e]/15 mb-14">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Image */}
+            <div className="relative min-h-[350px] order-2 md:order-1">
+              <img
+                src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=1000&q=80"
+                alt="Wellness Experience"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent md:bg-gradient-to-r md:from-[#1a2419]/0 md:to-[#1a2419]/60" />
+            </div>
 
-              <div className="relative h-96 md:h-auto">
-                <img 
-                  src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&q=80" 
-                  alt="Wellness Experience"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#2d3e26]/40 to-[#2d3e26]"></div>
+            {/* Text */}
+            <div className="relative bg-[#1a2419] p-12 md:p-14 flex flex-col justify-center order-1 md:order-2">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-px w-6 bg-[#a8c4a0]" />
+                <span className="text-[0.62rem] font-medium tracking-[0.3em] text-[#a8c4a0] uppercase">
+                  Featured Experience
+                </span>
               </div>
+              <h3
+                className="font-light text-[#faf7f0] text-[2.2rem] md:text-[2.5rem] leading-[1.15] mb-5"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                Lifestyle Reset with Luxury & Recreation
+              </h3>
+              <p className="text-[#c9a96e]/70 text-[0.9rem] leading-[1.9] font-light mb-8">
+                Combine rejuvenating wellness practices with recreational activities that bring joy and connection. Whether you seek adventure or tranquility, our curated selection ensures a balanced and fulfilling experience.
+              </p>
+              <a
+                href="#contact"
+                className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#c9a96e] to-[#b8924e] text-[#1a2419] text-[0.73rem] font-semibold tracking-[0.18em] uppercase shadow-lg shadow-[#c9a96e]/30 hover:shadow-[#c9a96e]/50 hover:-translate-y-1 transition-all duration-300 w-fit"
+              >
+                Learn More
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Highlight Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: <Wind className="w-8 h-8" />,
-              title: "Mindful Practices",
-              description: "Meditation, yoga, and breathwork sessions designed to center your mind and calm your spirit",
-              gradient: "from-[#7a9b76] to-[#5a7d56]"
-            },
-            {
-              icon: <Trees className="w-8 h-8" />,
-              title: "Nature Immersion",
-              description: "Forest bathing, hiking trails, and garden experiences that reconnect you with the natural world",
-              gradient: "from-[#5a7d56] to-[#3f5c3c]"
-            },
-            {
-              icon: <Heart className="w-8 h-8" />,
-              title: "Holistic Wellness",
-              description: "Spa therapies, therapeutic treatments, and wellness sessions for complete rejuvenation",
-              gradient: "from-[#b8a67d] to-[#a89668]"
-            }
-          ].map((highlight, idx) => (
+        {/* Highlights Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {highlights.map((h, i) => (
             <div
-              key={idx}
-              className="group relative bg-gradient-to-br from-[#f5f1e8] to-[#ede8dc] border border-[#d4c5a0]/30 rounded-2xl p-8 hover:shadow-xl transition-all duration-500"
+              key={i}
+              className="group bg-[#fffdf8] rounded-2xl p-7 border border-[#c9a96e]/12 hover:border-[#c9a96e]/30 hover:shadow-[0_14px_40px_rgba(45,62,38,0.09)] hover:-translate-y-1 transition-all duration-400"
             >
-              <div className={`absolute -inset-1 bg-gradient-to-br ${highlight.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-2xl blur`}></div>
-              <div className="relative">
-                <div className={`w-16 h-16 bg-gradient-to-br ${highlight.gradient} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                  {highlight.icon}
-                </div>
-                <h4 className="text-xl font-serif text-[#2d3e26] mb-3 font-light">
-                  {highlight.title}
-                </h4>
-                <p className="text-[#5a6d52] text-sm leading-relaxed font-light">
-                  {highlight.description}
-                </p>
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2d3e26] to-[#3a4d30] flex items-center justify-center text-[1.5rem] mb-5 shadow-lg group-hover:scale-110 transition-transform duration-400">
+                {h.emoji}
               </div>
+              <h4
+                className="text-[#2d3e26] text-[1.25rem] font-light mb-2.5"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                {h.title}
+              </h4>
+              <p className="text-[#4a5e42] text-[0.84rem] leading-relaxed font-light">{h.description}</p>
             </div>
           ))}
         </div>
       </div>
-
-      <style>{`
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        @keyframes float-medium {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(-5deg); }
-        }
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.05); }
-        }
-        .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
-        .animate-float-medium { animation: float-medium 6s ease-in-out infinite; }
-        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-      `}</style>
     </section>
   );
 }
