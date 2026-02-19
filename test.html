@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Serenity Haven — Luxury Wellness Experiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest: #2d3e26;
+    --forest-deep: #1a2419;
+    --forest-mid: #3a4d30;
+    --sage: #7a9b74;
+    --sage-light: #a8c4a0;
+    --gold: #c9a96e;
+    --gold-light: #e8d5a8;
+    --gold-pale: #f5ecd8;
+    --cream: #faf7f0;
+    --cream-dark: #f0e8d4;
+    --warm-white: #fffdf8;
+    --text-dark: #1e2b1a;
+    --text-mid: #4a5e42;
+    --text-light: #7a8f72;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transition: all 0.15s ease;
+    opacity: 0.6;
+  }
+  .cursor-ring.hovering { transform: scale(1.8); opacity: 0.3; border-color: var(--sage); }
+
+  /* Noise Overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    transition: all 0.5s ease;
+  }
+  nav.scrolled {
+    background: rgba(26, 36, 25, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 1rem 3rem;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-logo span { color: var(--sage-light); }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: rgba(232, 213, 168, 0.7);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--forest-deep);
+    background: linear-gradient(135deg, var(--gold) 0%, #b8924e 100%);
+    padding: 0.7rem 1.8rem;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(201, 169, 110, 0.3);
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201, 169, 110, 0.4); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--forest-deep);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2400&q=90');
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.05);
+    transition: transform 8s ease-out;
+    will-change: transform;
+  }
+  #hero.loaded .hero-bg { transform: scale(1); }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 18, 9, 0.5) 0%,
+      rgba(26, 36, 25, 0.4) 40%,
+      rgba(10, 18, 9, 0.85) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    max-width: 1100px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroFadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  }
+  .hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    width: 50px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4.5rem, 12vw, 10rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+    display: block;
+    font-size: 0.85em;
+  }
+  .hero-sub {
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    color: rgba(232, 213, 168, 0.7);
+    text-transform: uppercase;
+    margin-bottom: 3.5rem;
+    margin-top: 1.5rem;
+  }
+  .hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(250, 247, 240, 0.85);
+    max-width: 580px;
+    margin: 0 auto 3.5rem;
+    line-height: 1.7;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 2.8rem;
+    background: linear-gradient(135deg, var(--gold) 0%, #b8924e 100%);
+    color: var(--forest-deep);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    box-shadow: 0 8px 40px rgba(201, 169, 110, 0.35);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 50px rgba(201, 169, 110, 0.5); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 2.8rem;
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(10px);
+  }
+  .btn-secondary:hover {
+    background: rgba(201, 169, 110, 0.1);
+    border-color: var(--gold);
+    transform: translateY(-3px);
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgba(201, 169, 110, 0.5);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    animation: scrollBounce 2.5s ease-in-out infinite;
+    text-decoration: none;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(201, 169, 110, 0.6), transparent);
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--forest-deep);
+    border-top: 1px solid rgba(201, 169, 110, 0.1);
+    border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+    padding: 2.2rem 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: rgba(168, 196, 160, 0.7);
+    text-transform: uppercase;
+  }
+
+  /* SECTION BASE */
+  .section {
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+  }
+  .eyebrow-line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--sage));
+  }
+  .eyebrow-text {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--sage);
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300;
+    color: var(--forest);
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--text-mid); }
+  .section-desc {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 5rem;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.8;
+  }
+
+  /* PACKAGES SECTION */
+  #packages { background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 50%, var(--cream-dark) 100%); }
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  .package-card {
+    background: var(--warm-white);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 30px rgba(45, 62, 38, 0.06);
+  }
+  .package-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(45, 62, 38, 0.14);
+    border-color: rgba(201, 169, 110, 0.35);
+  }
+  .package-img {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+  }
+  .package-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .package-card:hover .package-img img { transform: scale(1.08); }
+  .package-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(26, 36, 25, 0.85) 100%);
+  }
+  .package-badge {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: linear-gradient(135deg, var(--gold) 0%, #b8924e 100%);
+    color: var(--forest-deep);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+  .package-img-title {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.8rem;
+    right: 1.8rem;
+  }
+  .package-img-title h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+  .package-img-title p {
+    font-size: 0.75rem;
+    color: rgba(232, 213, 168, 0.75);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .package-body {
+    padding: 1.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .package-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+  }
+  .package-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-mid);
+  }
+  .package-meta-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, rgba(122, 155, 116, 0.15), rgba(122, 155, 116, 0.05));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+  .package-inclusions {
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+  .package-inclusions h4 {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .inclusion-list {
+    list-style: none;
+  }
+  .inclusion-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+  }
+  .inclusion-list li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 0.55rem;
+    margin-top: 0.35rem;
+    flex-shrink: 0;
+  }
+  .package-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(201, 169, 110, 0.12);
+  }
+  .package-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(135deg, var(--forest), var(--forest-mid));
+    color: var(--gold-light);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .package-btn:hover { background: linear-gradient(135deg, var(--forest-mid), var(--sage)); transform: translateX(3px); }
+  .package-btn-outline {
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    transition: color 0.3s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: transparent;
+  }
+  .package-btn-outline:hover { color: var(--gold-light); text-decoration-color: var(--gold); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 18, 9, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-box {
+    background: var(--warm-white);
+    border-radius: 24px;
+    max-width: 780px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(30px) scale(0.97);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    box-shadow: 0 40px 120px rgba(0,0,0,0.4);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201, 169, 110, 0.3) transparent;
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+  .modal-hero {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    border-radius: 24px 24px 0 0;
+  }
+  .modal-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 20%, rgba(26, 36, 25, 0.9) 100%);
+  }
+  .modal-hero-content {
+    position: absolute;
+    bottom: 2rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
+  .modal-hero-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+  .modal-hero-content p {
+    font-style: italic;
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 36px;
+    height: 36px;
+    background: rgba(10, 18, 9, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gold-light);
+    font-size: 1.1rem;
+    transition: all 0.3s;
+  }
+  .modal-close:hover { background: rgba(201, 169, 110, 0.2); transform: rotate(90deg); }
+  .modal-body { padding: 2.5rem; }
+  .modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .modal-section h4 {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--sage);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .modal-section h4::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(122, 155, 116, 0.3), transparent);
+  }
+  .modal-list { list-style: none; }
+  .modal-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 0.7rem;
+    font-weight: 300;
+  }
+  .modal-list li .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+  }
+  .modal-list li .dot.green { background: var(--sage); }
+  .modal-focus {
+    background: linear-gradient(135deg, rgba(45, 62, 38, 0.05), rgba(122, 155, 116, 0.05));
+    border: 1px solid rgba(122, 155, 116, 0.2);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .modal-focus .label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .modal-focus .value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--forest);
+    font-weight: 400;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(201, 169, 110, 0.15);
+  }
+
+  /* ACTIVITIES SECTION */
+  #activities {
+    background: var(--cream);
+  }
+  .activities-masonry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+  }
+  .activity-card {
+    background: var(--warm-white);
+    border-radius: 20px;
+    padding: 2.2rem;
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(45, 62, 38, 0.04);
+  }
+  .activity-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sage), var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .activity-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px rgba(45, 62, 38, 0.1); border-color: rgba(201, 169, 110, 0.25); }
+  .activity-card:hover::before { transform: scaleX(1); }
+  .activity-card.wide { grid-column: span 2; }
+  .activity-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, rgba(122, 155, 116, 0.12), rgba(122, 155, 116, 0.04));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.3rem;
+    border: 1px solid rgba(122, 155, 116, 0.15);
+    transition: all 0.3s ease;
+  }
+  .activity-card:hover .activity-icon { background: linear-gradient(135deg, rgba(201, 169, 110, 0.2), rgba(201, 169, 110, 0.08)); border-color: rgba(201, 169, 110, 0.3); }
+  .activity-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+  .activity-card .subtitle {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .activity-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .activity-tag {
+    font-size: 0.7rem;
+    color: var(--text-mid);
+    background: rgba(122, 155, 116, 0.08);
+    border: 1px solid rgba(122, 155, 116, 0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    font-weight: 400;
+  }
+
+  /* FEATURED EXPERIENCE */
+  .featured-exp {
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--forest-deep);
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    box-shadow: 0 30px 80px rgba(10, 18, 9, 0.15);
+    margin-top: 2rem;
+  }
+  .featured-exp-text {
+    padding: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: var(--sage-light);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .featured-label::before {
+    content: '';
+    width: 25px;
+    height: 1px;
+    background: var(--sage);
+  }
+  .featured-exp-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .featured-exp-text p {
+    font-size: 0.9rem;
+    color: rgba(232, 213, 168, 0.7);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+  }
+  .featured-exp-img {
+    position: relative;
+    min-height: 400px;
+  }
+  .featured-exp-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .featured-exp-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, transparent 50%, rgba(26, 36, 25, 0.7) 100%);
+  }
+
+  /* CONTACT SECTION */
+  #contact {
+    background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+  }
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contact-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .contact-info p {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+  }
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem;
+    background: var(--warm-white);
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    border-radius: 14px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .contact-detail:hover { border-color: var(--gold); transform: translateX(4px); }
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(122, 155, 116, 0.15), rgba(201, 169, 110, 0.1));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .contact-detail-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+  .contact-detail-value {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 400;
+  }
+  .contact-form-card {
+    background: var(--warm-white);
+    border-radius: 24px;
+    padding: 3rem;
+    border: 1px solid rgba(201, 169, 110, 0.15);
+    box-shadow: 0 10px 50px rgba(45, 62, 38, 0.06);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--forest);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .form-group label span { color: #c97b4d; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 1rem 1.3rem;
+    background: rgba(245, 237, 216, 0.3);
+    border: 1.5px solid rgba(201, 169, 110, 0.2);
+    border-radius: 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    font-weight: 300;
+    transition: all 0.3s ease;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--sage);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(122, 155, 116, 0.1);
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(122, 143, 114, 0.5); }
+  .form-group textarea { resize: none; min-height: 130px; }
+  .form-group select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9b74' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1.2rem center; padding-right: 2.5rem; }
+  .form-submit {
+    width: 100%;
+    padding: 1.1rem;
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+    color: var(--gold-light);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: linear-gradient(135deg, var(--forest-mid), var(--sage)); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(45, 62, 38, 0.25); }
+  .form-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .success-msg {
+    display: none;
+    padding: 1.2rem 1.5rem;
+    background: rgba(122, 155, 116, 0.1);
+    border: 1.5px solid rgba(122, 155, 116, 0.3);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+    color: var(--forest);
+    font-weight: 400;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .success-msg.show { display: flex; }
+  .error-msg {
+    display: none;
+    padding: 1.2rem 1.5rem;
+    background: rgba(201, 80, 60, 0.06);
+    border: 1.5px solid rgba(201, 80, 60, 0.2);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+    color: #8b3020;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .error-msg.show { display: flex; }
+
+  /* FOOTER */
+  footer {
+    background: var(--forest-deep);
+    border-top: 1px solid rgba(201, 169, 110, 0.12);
+    padding: 5rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  footer::before {
+    content: 'SERENITY';
+    position: absolute;
+    bottom: -3rem;
+    right: -2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12rem;
+    font-weight: 300;
+    color: rgba(201, 169, 110, 0.03);
+    pointer-events: none;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 5rem;
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+  }
+  .footer-brand h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+  .footer-brand .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: rgba(201, 169, 110, 0.5);
+    font-style: italic;
+    margin-bottom: 1.8rem;
+  }
+  .footer-brand p {
+    font-size: 0.85rem;
+    color: rgba(168, 196, 160, 0.55);
+    line-height: 1.9;
+    font-weight: 300;
+    max-width: 300px;
+  }
+  .footer-col h4 {
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--sage-light);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .footer-col h4::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(122, 155, 116, 0.2);
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.9rem; }
+  .footer-links a {
+    font-size: 0.85rem;
+    color: rgba(201, 169, 110, 0.5);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+  .footer-links a::before { content: '→'; opacity: 0; transition: opacity 0.3s, transform 0.3s; transform: translateX(-5px); font-size: 0.7rem; }
+  .footer-links a:hover::before { opacity: 1; transform: translateX(0); }
+  .footer-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+  .footer-contact-item .icon {
+    width: 34px;
+    height: 34px;
+    background: rgba(122, 155, 116, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .footer-contact-item a,
+  .footer-contact-item span {
+    font-size: 0.85rem;
+    color: rgba(201, 169, 110, 0.6);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s;
+  }
+  .footer-contact-item a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-bottom p {
+    font-size: 0.75rem;
+    color: rgba(201, 169, 110, 0.3);
+    font-weight: 300;
+  }
+  .footer-bottom .made {
+    font-size: 0.75rem;
+    color: rgba(168, 196, 160, 0.3);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  /* FLOATING NAV DOTS */
+  .nav-dots {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(201, 169, 110, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .nav-dot::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .nav-dot:hover::after, .nav-dot.active::after { opacity: 1; }
+  .nav-dot.active, .nav-dot:hover { background: var(--gold); transform: scale(1.6); }
+
+  /* ANIMATIONS */
+  @keyframes heroFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { animation: spin 1s linear infinite; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  .hamburger span {
+    width: 24px;
+    height: 1.5px;
+    background: var(--gold-light);
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 18, 9, 0.97);
+    backdrop-filter: blur(20px);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: var(--gold-light);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-cta { display: none; }
+    .packages-grid { grid-template-columns: 1fr; }
+    .activities-masonry { grid-template-columns: 1fr; }
+    .activity-card.wide { grid-column: span 1; }
+    .contact-layout { grid-template-columns: 1fr; }
+    .featured-exp { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
+    .modal-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-dots { display: none; }
+    nav { padding: 1.2rem 1.5rem; }
+    .stats-bar { gap: 2.5rem; padding: 2rem 1.5rem; }
+    .section { padding: 5rem 1.5rem; }
+    .modal-box { margin: 1rem; }
+    .contact-form-card { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#hero" onclick="closeMobile()">Home</a>
+  <a href="#packages" onclick="closeMobile()">Packages</a>
+  <a href="#activities" onclick="closeMobile()">Activities</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">The Serenity <span>Haven</span></a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#activities">Activities</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Retreat</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Side Nav Dots -->
+<div class="nav-dots" id="navDots">
+  <div class="nav-dot active" data-section="hero" data-label="Home" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="nav-dot" data-section="packages" data-label="Packages" onclick="document.getElementById('packages').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="nav-dot" data-section="activities" data-label="Activities" onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="nav-dot" data-section="contact" data-label="Contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"></div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Luxury Wellness Experiences</div>
+    <h1 class="hero-title">
+      The Serenity
+      <em>Haven</em>
+    </h1>
+    <p class="hero-sub">Curated for the Mind, Body & Soul</p>
+    <p class="hero-desc">A sanctuary where healing meets stillness, and nature restores the soul.</p>
+    <div class="hero-actions">
+      <a href="#packages" class="btn-primary">
+        Explore Packages
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#activities" class="btn-secondary">
+        View Activities
+      </a>
+    </div>
+  </div>
+  <a href="#packages" class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </a>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">6+</div>
+    <div class="stat-label">Curated Packages</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">20+</div>
+    <div class="stat-label">Wellness Activities</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Spa Therapies</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Nature-Immersed</div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section id="packages" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Wellness Journeys</span>
+      <div class="eyebrow-line" style="background:linear-gradient(to left, transparent, var(--sage))"></div>
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">Our Wellness <em>Packages</em></h2>
+    <p class="section-desc reveal reveal-delay-2">Transformative experiences designed to restore balance, vitality, and inner peace — each one a journey to a better you.</p>
+
+    <div class="packages-grid">
+
+      <!-- Package 1 -->
+      <div class="package-card reveal reveal-delay-1" onclick="openModal('pkg1')">
+        <div class="package-img">
+          <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80" alt="One Day Serenity" loading="lazy">
+          <div class="package-img-overlay"></div>
+          <div class="package-badge">Popular</div>
+          <div class="package-img-title">
+            <h3>One Day Serenity Experience</h3>
+            <p>A day to pause. A lifetime to breathe.</p>
+          </div>
+        </div>
+        <div class="package-body">
+          <div class="package-meta">
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🕐</div>
+              Full Day
+            </div>
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🎯</div>
+              Stress Decompression
+            </div>
+          </div>
+          <div class="package-inclusions">
+            <h4>What's Included</h4>
+            <ul class="inclusion-list">
+              <li>Personalized Doctor Consultation</li>
+              <li>Morning Yoga & Breathwork</li>
+              <li>Satvik & Balanced Meals</li>
+              <li>Guided Meditation Sessions</li>
+            </ul>
+          </div>
+          <div class="package-cta">
+            <button class="package-btn-outline" onclick="event.stopPropagation(); openModal('pkg1')">View Details</button>
+            <a href="#contact" class="package-btn" onclick="event.stopPropagation()">Inquire <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Package 2 -->
+      <div class="package-card reveal reveal-delay-2" onclick="openModal('pkg2')">
+        <div class="package-img">
+          <img src="https://images.unsplash.com/photo-1540206395-68808572332f?w=800&q=80" alt="Nourish and Revive" loading="lazy">
+          <div class="package-img-overlay"></div>
+          <div class="package-badge">Best Value</div>
+          <div class="package-img-title">
+            <h3>Nourish & Revive Vitality Retreat</h3>
+            <p>Reconnect with your inner rhythm.</p>
+          </div>
+        </div>
+        <div class="package-body">
+          <div class="package-meta">
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🌙</div>
+              2 Days, 1 Night
+            </div>
+            <div class="package-meta-item">
+              <div class="package-meta-icon">✨</div>
+              Lifestyle Reset
+            </div>
+          </div>
+          <div class="package-inclusions">
+            <h4>What's Included</h4>
+            <ul class="inclusion-list">
+              <li>Premium Wellness Suite Stay</li>
+              <li>Personalized Doctor Consultation</li>
+              <li>Morning Yoga & Breathwork</li>
+              <li>Fun Group Activities</li>
+            </ul>
+          </div>
+          <div class="package-cta">
+            <button class="package-btn-outline" onclick="event.stopPropagation(); openModal('pkg2')">View Details</button>
+            <a href="#contact" class="package-btn" onclick="event.stopPropagation()">Inquire <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Package 3 -->
+      <div class="package-card reveal reveal-delay-3" onclick="openModal('pkg3')">
+        <div class="package-img">
+          <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80" alt="Detox Retreat" loading="lazy">
+          <div class="package-img-overlay"></div>
+          <div class="package-img-title">
+            <h3>Detox & Rejuvenation Retreat</h3>
+            <p>A profound transformation from the inside out.</p>
+          </div>
+        </div>
+        <div class="package-body">
+          <div class="package-meta">
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🌙</div>
+              3 Days, 2 Nights
+            </div>
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🌿</div>
+              Detoxification
+            </div>
+          </div>
+          <div class="package-inclusions">
+            <h4>What's Included</h4>
+            <ul class="inclusion-list">
+              <li>Luxury Nature-Centric Living</li>
+              <li>Personalized Doctor Consultation</li>
+              <li>Guided Meditation Sessions</li>
+              <li>Fun Group Activities</li>
+            </ul>
+          </div>
+          <div class="package-cta">
+            <button class="package-btn-outline" onclick="event.stopPropagation(); openModal('pkg3')">View Details</button>
+            <a href="#contact" class="package-btn" onclick="event.stopPropagation()">Inquire <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Package 4 -->
+      <div class="package-card reveal reveal-delay-1" onclick="openModal('pkg4')">
+        <div class="package-img">
+          <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=800&q=80" alt="Golden Years" loading="lazy">
+          <div class="package-img-overlay"></div>
+          <div class="package-img-title">
+            <h3>Golden Years Grace</h3>
+            <p>Longevity, dignity, and the art of aging well.</p>
+          </div>
+        </div>
+        <div class="package-body">
+          <div class="package-meta">
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🌙</div>
+              3 Days, 2 Nights
+            </div>
+            <div class="package-meta-item">
+              <div class="package-meta-icon">💛</div>
+              Senior Wellness
+            </div>
+          </div>
+          <div class="package-inclusions">
+            <h4>What's Included</h4>
+            <ul class="inclusion-list">
+              <li>Geriatric-Focused Health Screening</li>
+              <li>Gentle Yoga & Mobility Sessions</li>
+              <li>Satvik & Balanced Meals</li>
+              <li>Cognitive Wellness Activities</li>
+            </ul>
+          </div>
+          <div class="package-cta">
+            <button class="package-btn-outline" onclick="event.stopPropagation(); openModal('pkg4')">View Details</button>
+            <a href="#contact" class="package-btn" onclick="event.stopPropagation()">Inquire <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Package 5 -->
+      <div class="package-card reveal reveal-delay-2" onclick="openModal('pkg5')">
+        <div class="package-img">
+          <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80" alt="Pain to Peace Trek" loading="lazy">
+          <div class="package-img-overlay"></div>
+          <div class="package-img-title">
+            <h3>Pain to Peace Trek</h3>
+            <p>Conquer the trail, calm the mind.</p>
+          </div>
+        </div>
+        <div class="package-body">
+          <div class="package-meta">
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🌙</div>
+              2 Days, 1 Night
+            </div>
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🏔️</div>
+              Team & Endurance
+            </div>
+          </div>
+          <div class="package-inclusions">
+            <h4>What's Included</h4>
+            <ul class="inclusion-list">
+              <li>Guided Mindful Trek</li>
+              <li>Premium Suite Accommodation</li>
+              <li>Morning Yoga & Breathwork</li>
+              <li>Personalized Doctor Consultation</li>
+            </ul>
+          </div>
+          <div class="package-cta">
+            <button class="package-btn-outline" onclick="event.stopPropagation(); openModal('pkg5')">View Details</button>
+            <a href="#contact" class="package-btn" onclick="event.stopPropagation()">Inquire <span>→</span></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Package 6 -->
+      <div class="package-card reveal reveal-delay-3" onclick="openModal('pkg6')">
+        <div class="package-img">
+          <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80" alt="Roots and Wings" loading="lazy">
+          <div class="package-img-overlay"></div>
+          <div class="package-badge">Family</div>
+          <div class="package-img-title">
+            <h3>Roots & Wings Retreat</h3>
+            <p>Growing healthy, growing together.</p>
+          </div>
+        </div>
+        <div class="package-body">
+          <div class="package-meta">
+            <div class="package-meta-item">
+              <div class="package-meta-icon">🌙</div>
+              3 Days, 2 Nights
+            </div>
+            <div class="package-meta-item">
+              <div class="package-meta-icon">👨‍👩‍👧</div>
+              Family Vitality
+            </div>
+          </div>
+          <div class="package-inclusions">
+            <h4>What's Included</h4>
+            <ul class="inclusion-list">
+              <li>Premium Wellness Suite Stay</li>
+              <li>Family Yoga & Breathwork</li>
+              <li>Guided Meditation Sessions</li>
+              <li>Fun Group Activities</li>
+            </ul>
+          </div>
+          <div class="package-cta">
+            <button class="package-btn-outline" onclick="event.stopPropagation(); openModal('pkg6')">View Details</button>
+            <a href="#contact" class="package-btn" onclick="event.stopPropagation()">Inquire <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Package CTA -->
+    <div class="featured-exp reveal">
+      <div class="featured-exp-text">
+        <div class="featured-label">Bespoke Experience</div>
+        <h3>Custom Package Available</h3>
+        <p>Don't see exactly what you're looking for? Our wellness experts craft personalized retreats tailored to your unique needs, health goals, and preferences.</p>
+        <a href="#contact" class="btn-primary" style="width:fit-content">
+          Request Custom Package
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="featured-exp-img">
+        <img src="https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=1000&q=80" alt="Custom Package">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section id="activities" class="section" style="background: var(--cream-dark)">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Transformative Experiences</span>
+      <div class="eyebrow-line" style="background:linear-gradient(to left, transparent, var(--sage))"></div>
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">Activities at <em>Serenity Haven</em></h2>
+    <p class="section-desc reveal reveal-delay-2">Immerse yourself in practices designed to nourish your mind, body, and spirit. Connect, create, and rejuvenate.</p>
+
+    <div class="activities-masonry">
+      <div class="activity-card reveal reveal-delay-1">
+        <div class="activity-icon">🧘</div>
+        <h3>Meditation</h3>
+        <p class="subtitle">Transform your mind and spirit</p>
+        <div class="activity-tags">
+          <span class="activity-tag">Omkara Meditation</span>
+          <span class="activity-tag">Soham Meditation</span>
+          <span class="activity-tag">Chakra Activations</span>
+          <span class="activity-tag">Guided Sessions</span>
+        </div>
+      </div>
+
+      <div class="activity-card reveal reveal-delay-2">
+        <div class="activity-icon">🌿</div>
+        <h3>Yoga</h3>
+        <p class="subtitle">Balance body and soul</p>
+        <div class="activity-tags">
+          <span class="activity-tag">Hatha Yoga</span>
+          <span class="activity-tag">Gentle Stretch & Mobility</span>
+          <span class="activity-tag">Pranayama & Breathwork</span>
+        </div>
+      </div>
+
+      <div class="activity-card reveal reveal-delay-3">
+        <div class="activity-icon">🌲</div>
+        <h3>Adventures</h3>
+        <p class="subtitle">Reconnect with nature</p>
+        <div class="activity-tags">
+          <span class="activity-tag">Group Hiking</span>
+          <span class="activity-tag">Forest Bathing</span>
+          <span class="activity-tag">Mindful Walking Trails</span>
+        </div>
+      </div>
+
+      <div class="activity-card wide reveal reveal-delay-1">
+        <div class="activity-icon">✨</div>
+        <h3>Spa Therapies</h3>
+        <p class="subtitle">Rejuvenate and restore your complete being</p>
+        <div class="activity-tags">
+          <span class="activity-tag">Abhyagam Therapy</span>
+          <span class="activity-tag">Swedish Massage</span>
+          <span class="activity-tag">Belinish Treatment</span>
+          <span class="activity-tag">Aromatherapy</span>
+          <span class="activity-tag">Deep Tissue Massage</span>
+        </div>
+      </div>
+
+      <div class="activity-card reveal reveal-delay-2">
+        <div class="activity-icon">🎶</div>
+        <h3>Playful Activities</h3>
+        <p class="subtitle">Celebrate life together</p>
+        <div class="activity-tags">
+          <span class="activity-tag">Bonfire Under Stars</span>
+          <span class="activity-tag">Moon Gazing</span>
+          <span class="activity-tag">Musical Nights</span>
+          <span class="activity-tag">Garden Walks</span>
+          <span class="activity-tag">Wellness Games</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Banner -->
+    <div class="featured-exp reveal">
+      <div class="featured-exp-img" style="min-height: 350px;">
+        <img src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=1000&q=80" alt="Wellness Experience">
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(26,36,25,0.7) 30%, transparent);"></div>
+      </div>
+      <div class="featured-exp-text">
+        <div class="featured-label">Featured Experience</div>
+        <h3>Lifestyle Reset with Luxury & Recreation</h3>
+        <p>Combine rejuvenating wellness practices with activities that bring joy and connection. Whether you seek adventure or tranquility, our curated selection ensures a balanced, fulfilling experience.</p>
+        <a href="#contact" class="btn-primary" style="width:fit-content">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Get In Touch</span>
+      <div class="eyebrow-line" style="background:linear-gradient(to left, transparent, var(--sage))"></div>
+    </div>
+    <h2 class="section-title reveal reveal-delay-1">Get Personalized <em>Information</em></h2>
+    <p class="section-desc reveal reveal-delay-2">Have questions or need a customized wellness package? We're here to help you begin your journey.</p>
+
+    <div class="contact-layout reveal reveal-delay-1">
+      <div class="contact-info">
+        <h3>Begin Your Wellness Journey with Us</h3>
+        <p>Our wellness experts are ready to guide you toward the perfect retreat. Reach out and let us craft an experience that truly nurtures your mind, body, and soul.</p>
+
+        <a href="tel:9974542678" class="contact-detail">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-detail-label">Phone</div>
+            <div class="contact-detail-value">9974542678</div>
+          </div>
+        </a>
+
+        <a href="mailto:support@serenityhaven.in" class="contact-detail">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-detail-label">Email</div>
+            <div class="contact-detail-value">support@serenityhaven.in</div>
+          </div>
+        </a>
+
+        <div style="margin-top:2.5rem; padding:1.8rem; background:linear-gradient(135deg, rgba(45,62,38,0.05), rgba(122,155,116,0.05)); border:1px solid rgba(122,155,116,0.15); border-radius:16px;">
+          <div style="font-size:0.65rem;letter-spacing:0.2em;color:var(--sage);text-transform:uppercase;font-weight:500;margin-bottom:0.8rem;">Our Promise</div>
+          <p style="font-size:0.85rem;color:var(--text-mid);line-height:1.9;font-weight:300;">At Serenity Haven, we're committed to transformative wellness experiences that nurture your mind, body, and soul in a sanctuary of natural beauty.</p>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <div class="success-msg" id="successMsg">
+          <span style="font-size:1.2rem;">✅</span>
+          <div>
+            <strong>Query submitted successfully!</strong><br>
+            <span style="font-size:0.82rem;font-weight:300;">We'll get back to you shortly at your email address.</span>
+          </div>
+        </div>
+        <div class="error-msg" id="errorMsg">
+          <span style="font-size:1.2rem;">⚠️</span>
+          <div>
+            <strong>Failed to submit</strong><br>
+            <span id="errorText" style="font-size:0.82rem;font-weight:300;"></span>
+          </div>
+        </div>
+
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span>*</span></label>
+              <input type="text" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address <span>*</span></label>
+              <input type="email" name="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span>*</span></label>
+              <input type="tel" name="phone" placeholder="+91 9974542678" required>
+            </div>
+            <div class="form-group">
+              <label>Package Interest</label>
+              <select name="package_interest">
+                <option value="">Select a package (optional)</option>
+                <option>One Day Serenity Experience</option>
+                <option>Nourish And Revive Vitality Retreat</option>
+                <option>Detox & Rejuvenation Retreat</option>
+                <option>Golden Years Grace - Retreat for Seniors</option>
+                <option>Pain to Peace Trek</option>
+                <option>Roots & Wings Retreat</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Your Message <span>*</span></label>
+            <textarea name="message" placeholder="Tell us about your wellness goals, specific requirements, or any questions you may have..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h2>The Serenity Haven</h2>
+        <p class="tagline">Where wellness transforms into a way of life.</p>
+        <p>A sanctuary where healing meets stillness, and nature restores the soul. Luxury wellness experiences curated for the mind, body, and soul.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#packages">Our Packages</a></li>
+          <li><a href="#activities">Activities</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get In Touch</h4>
+        <div class="footer-contact-item">
+          <div class="icon">📞</div>
+          <a href="tel:9974542678">9974542678</a>
+        </div>
+        <div class="footer-contact-item">
+          <div class="icon">✉️</div>
+          <a href="mailto:support@serenityhaven.in">support@serenityhaven.in</a>
+        </div>
+        <div style="margin-top:1.5rem;padding:1rem;background:rgba(122,155,116,0.08);border-radius:10px;border:1px solid rgba(122,155,116,0.12);">
+          <p style="font-size:0.78rem;color:rgba(201,169,110,0.5);font-weight:300;line-height:1.7;font-style:italic;">Crafted with care for your complete wellbeing ✦</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 The Serenity Haven. All rights reserved.</p>
+      <p class="made">Luxury Wellness Experiences Curated for the Mind, Body & Soul</p>
+    </div>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-box">
+    <!-- Filled by JS -->
+  </div>
+</div>
+
+<script>
+// Package data
+const packages = {
+  pkg1: {
+    title: "One Day Serenity Experience",
+    subtitle: "A day to pause. A lifetime to breathe.",
+    duration: "Full Day (Dawn to Dusk)",
+    focus: "Stress Decompression & Mental Clarity",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=80",
+    inclusions: ["Personalized Doctor consultation","Morning Yoga and Breathwork","Satvik & Balanced Meals","Guided Meditation Sessions"],
+    complementary: ["Personalized Diet Plans from doctor","Herbal welcome drink & detox tea"],
+    addOns: []
+  },
+  pkg2: {
+    title: "Nourish & Revive Vitality Retreat",
+    subtitle: "Reconnect with your inner rhythm.",
+    duration: "2 Days, 1 Night",
+    focus: "Lifestyle Reset with Relaxation & Recreation",
+    image: "https://images.unsplash.com/photo-1540206395-68808572332f?w=1200&q=80",
+    inclusions: ["Resort-ambience premium wellness suites","Personalized Doctor consultation","Satvik & Balanced Meals","Morning Yoga and Breathwork","Guided Meditation Sessions","Fun Group Activities"],
+    complementary: ["Personalized Diet Plans from Doctor","Acupuncture/Sujok therapy","Health talks & wellness guidance","Evening herbal detox drinks"],
+    addOns: ["Spa Therapies"]
+  },
+  pkg3: {
+    title: "Detox & Rejuvenation Retreat",
+    subtitle: "A profound transformation from the inside out.",
+    duration: "3 Days, 2 Nights",
+    focus: "Detoxification & Spiritual Alignment",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80",
+    inclusions: ["3 days luxury nature-centric living","Personalized Doctor consultation","Satvik & Balanced Meals","Morning Yoga and Breathwork","Guided meditation sessions","Fun Group Activities"],
+    complementary: ["Personalized Diet Plans from Doctor","Acupuncture/Sujok therapy","Health talks","Detox welcome drink"],
+    addOns: ["Spa Therapies"]
+  },
+  pkg4: {
+    title: "Golden Years Grace — Retreat for Seniors",
+    subtitle: "Longevity, dignity, and the art of aging well.",
+    duration: "3 Days, 2 Nights",
+    focus: "Mobility, Cognitive Health & Rejuvenation",
+    image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1200&q=80",
+    inclusions: ["Luxury stay in serene nature-centric environment","Geriatric-focused health screening","Satvik & Balanced Meals","Morning Yoga and Breathwork","Guided Meditation Sessions","Fun Group Activities"],
+    complementary: ["Health talk on 'Graceful Aging and Preventive Care'","Personalized Diet Plans from Doctor","Detox welcome drink"],
+    addOns: []
+  },
+  pkg5: {
+    title: "Pain to Peace Trek",
+    subtitle: "Conquer the trail, calm the mind.",
+    duration: "2 Days, 1 Night",
+    focus: "Team Synergy & Physical Endurance",
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1200&q=80",
+    inclusions: ["Guided moderate trek with mindful walking","Premium wellness suite accommodation","Personalized Doctor Consultation","Morning Yoga & Breathwork","Guided Meditation Sessions","Satvik & Balanced Meals","Fun Group Activities"],
+    complementary: ["Health talk & wellness guidance","Personalized Diet Plans from Doctor","Acupuncture/Sujok therapy"],
+    addOns: []
+  },
+  pkg6: {
+    title: "Roots & Wings Retreat",
+    subtitle: "Growing healthy, growing together.",
+    duration: "3 Days, 2 Nights",
+    focus: "Intergenerational Connection & Family Vitality",
+    image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1200&q=80",
+    inclusions: ["Premium wellness suite stay","Personalized Doctor Consultation","Morning Yoga and Breathwork","Satvik & Balanced Meals","Guided Meditation Sessions","Fun Group Activities"],
+    complementary: ["Health talk & wellness guidance","Personalized Diet Plans from Doctor"],
+    addOns: []
+  }
+};
+
+function openModal(id) {
+  const pkg = packages[id];
+  if (!pkg) return;
+  const overlay = document.getElementById('modal-overlay');
+  const box = document.getElementById('modal-box');
+
+  const addOnsHtml = pkg.addOns.length ? `
+    <div style="padding:1rem 1.5rem;background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.15);border-radius:12px;margin-bottom:1.5rem;">
+      <div style="font-size:0.62rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;font-weight:500;margin-bottom:0.4rem;">Add-Ons Available</div>
+      <div style="font-size:0.9rem;color:var(--text-mid);font-weight:300;">${pkg.addOns.join(', ')}</div>
+    </div>` : '';
+
+  box.innerHTML = `
+    <div class="modal-hero">
+      <img src="${pkg.image}" alt="${pkg.title}">
+      <div class="modal-hero-overlay"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-hero-content">
+        <h2>${pkg.title}</h2>
+        <p>${pkg.subtitle}</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1.2rem;background:rgba(122,155,116,0.08);border:1px solid rgba(122,155,116,0.15);border-radius:10px;font-size:0.8rem;color:var(--text-mid);">
+          🕐 <span>${pkg.duration}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.6rem;padding:0.7rem 1.2rem;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.15);border-radius:10px;font-size:0.8rem;color:var(--text-mid);">
+          🎯 <span>${pkg.focus}</span>
+        </div>
+      </div>
+      <div class="modal-grid">
+        <div class="modal-section">
+          <h4>What's Included</h4>
+          <ul class="modal-list">
+            ${pkg.inclusions.map(i => `<li><div class="dot"></div>${i}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="modal-section">
+          <h4>Complimentary</h4>
+          <ul class="modal-list">
+            ${pkg.complementary.map(c => `<li><div class="dot green"></div>${c}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      ${addOnsHtml}
+      <div class="modal-actions">
+        <button onclick="closeModal()" style="padding:0.8rem 1.8rem;border:1.5px solid rgba(201,169,110,0.2);border-radius:10px;background:none;color:var(--text-mid);font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;font-weight:400;letter-spacing:0.1em;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,169,110,0.2)'">Go Back</button>
+        <a href="#contact" onclick="closeModal()" class="btn-primary" style="text-decoration:none;">Inquire Now →</a>
+      </div>
+    </div>`;
+  
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Custom Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX - 4 + 'px';
+  cursor.style.top = mouseY - 4 + 'px';
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  ring.style.left = ringX - 18 + 'px';
+  ring.style.top = ringY - 18 + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .package-card, .activity-card').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+});
+
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+  updateNavDots();
+});
+
+// Hero loaded animation
+setTimeout(() => {
+  document.getElementById('hero').classList.add('loaded');
+}, 100);
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Nav Dots
+function updateNavDots() {
+  const sections = ['hero','packages','activities','contact'];
+  const dots = document.querySelectorAll('.nav-dot');
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    dots[i]?.classList.toggle('active', rect.top <= window.innerHeight/2 && rect.bottom > window.innerHeight/2);
+  });
+}
+
+// Mobile menu
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.add('open');
+  document.body.style.overflow = 'hidden';
+});
+document.getElementById('mobileClose').addEventListener('click', closeMobile);
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Form Submit
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = `<svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg> Submitting...`;
+  
+  document.getElementById('successMsg').classList.remove('show');
+  document.getElementById('errorMsg').classList.remove('show');
+
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    const apiUrl = window.VITE_API_URL || 'http://localhost:3000';
+    const res = await fetch(`${apiUrl}/api/submit-query`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Failed to submit');
+    document.getElementById('successMsg').classList.add('show');
+    this.reset();
+    setTimeout(() => document.getElementById('successMsg').classList.remove('show'), 6000);
+  } catch (err) {
+    document.getElementById('errorText').textContent = err.message || 'Please try again or contact us directly.';
+    document.getElementById('errorMsg').classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send Message`;
+  }
+});
+
+// Keyboard close modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>
