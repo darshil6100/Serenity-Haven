@@ -173,8 +173,8 @@ export default function Hero() {
         <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-10 md:gap-20">
           {[
             { num: '6+', label: 'Curated Packages' },
-            { num: '20+', label: 'Wellness Activities' },
-            { num: '5', label: 'Spa Therapies' },
+            { num: '20+', label: 'Activities' },
+            { num: '5+', label: 'Spa Therapies' },
             { num: '100%', label: 'Nature-Immersed' },
           ].map((s, i) => (
             <div key={i} className="text-center">
