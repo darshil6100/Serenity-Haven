@@ -104,7 +104,7 @@ export default function Footer() {
               </div>
               <div>
                 <div className="text-[0.58rem] tracking-[0.2em] text-[#7a9b74]/80 uppercase font-medium mb-0.5">Email</div>
-                <div className="text-[0.86rem] text-[#c9a96e]/60 group-hover:text-[#e8d5a8] transition-colors font-light break-all">support@serenityhaven.in</div>
+                <div className="text-[0.86rem] text-[#c9a96e]/60 group-hover:text-[#e8d5a8] transition-colors font-light break-all">serenityhavensupport@gmail.com</div>
               </div>
             </a>
 
