@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  package_interest: string;
-  message: string;
-}
+import { sendContactEmail, type ContactFormData } from '../../server/index.ts';
 
 const packageOptions = [
   'One Day Serenity Experience',
@@ -18,15 +11,19 @@ const packageOptions = [
   'Roots & Wings Retreat',
 ];
 
+const EMPTY_FORM: ContactFormData = {
+  name: '', email: '', phone: '', package_interest: '', message: '',
+};
+
 export default function ContactForm() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '', email: '', phone: '', package_interest: '', message: '',
-  });
+  const [formData, setFormData]       = useState<ContactFormData>(EMPTY_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -35,26 +32,19 @@ export default function ContactForm() {
     setIsSubmitting(true);
     setSubmitStatus(null);
     setErrorMessage('');
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-      const response = await fetch(`${apiUrl}/api/submit-query`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to submit query');
-      }
+
+    const result = await sendContactEmail(formData);
+
+    if (result.success) {
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', package_interest: '', message: '' });
+      setFormData(EMPTY_FORM);
       setTimeout(() => setSubmitStatus(null), 6000);
-    } catch (error) {
+    } else {
       setSubmitStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to submit. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+      setErrorMessage(result.error ?? 'Failed to submit. Please try again.');
     }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -86,6 +76,7 @@ export default function ContactForm() {
 
         {/* Two-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
+
           {/* Left Info Column */}
           <div className="lg:col-span-2 space-y-6">
             <div>
@@ -100,7 +91,7 @@ export default function ContactForm() {
               </p>
             </div>
 
-            <a href="tel:9987546524" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
+            <a href="tel:9974542678" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">📞</div>
               <div>
                 <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Phone</div>
@@ -108,7 +99,7 @@ export default function ContactForm() {
               </div>
             </a>
 
-            <a href="mailto:support@serenityhaven.in" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
+            <a href="mailto:serenityhavensupport@gmail.com" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">✉️</div>
               <div>
                 <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Email</div>
@@ -127,18 +118,19 @@ export default function ContactForm() {
           {/* Right Form Column */}
           <div className="lg:col-span-3">
             <div className="bg-[#fffdf8] rounded-3xl p-7 md:p-10 border border-[#c9a96e]/15 shadow-[0_10px_50px_rgba(45,62,38,0.06)]">
-              {/* Success */}
+
               {submitStatus === 'success' && (
                 <div className="mb-6 p-5 bg-[#7a9b74]/10 border border-[#7a9b74]/25 rounded-2xl flex items-start gap-3 animate-slide-in">
                   <CheckCircle className="w-5 h-5 text-[#7a9b74] flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-[#2d3e26] font-semibold text-[0.92rem]">Query submitted successfully!</p>
-                    <p className="text-[#4a5e42] text-[0.8rem] mt-0.5 font-light">We'll get back to you shortly at your email address.</p>
+                    <p className="text-[#4a5e42] text-[0.8rem] mt-0.5 font-light">
+                      We'll get back to you shortly. A confirmation has been sent to your email.
+                    </p>
                   </div>
                 </div>
               )}
 
-              {/* Error */}
               {submitStatus === 'error' && (
                 <div className="mb-6 p-5 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3 animate-slide-in">
                   <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
@@ -245,7 +237,7 @@ export default function ContactForm() {
       <style>{`
         @keyframes slide-in {
           from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         .animate-slide-in { animation: slide-in 0.35s ease-out both; }
       `}</style>
