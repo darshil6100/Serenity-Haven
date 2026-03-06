@@ -100,7 +100,7 @@ export default function ContactForm() {
               </p>
             </div>
 
-            <a href="tel:9974542678" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
+            <a href="tel:9987546524" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">📞</div>
               <div>
                 <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Phone</div>
@@ -112,7 +112,7 @@ export default function ContactForm() {
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">✉️</div>
               <div>
                 <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Email</div>
-                <div className="text-[0.88rem] text-[#2d3e26] font-medium break-all">support@serenityhaven.in</div>
+                <div className="text-[0.88rem] text-[#2d3e26] font-medium break-all">serenityhavensupport@gmail.com</div>
               </div>
             </a>
 
@@ -182,7 +182,7 @@ export default function ContactForm() {
                     </label>
                     <input
                       type="tel" name="phone" value={formData.phone} onChange={handleChange} required
-                      placeholder="+91 9974542678"
+                      placeholder="+91 9987454332"
                       className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 text-[#2d3e26] text-[0.88rem] font-light placeholder:text-[#c9a96e]/40 focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
                     />
                   </div>
