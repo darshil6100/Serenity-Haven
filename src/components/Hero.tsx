@@ -150,10 +150,10 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="#activities"
+              href="#corporate"
               className="inline-flex items-center gap-2 px-9 py-4 rounded-full border border-[#c9a96e]/40 text-[#e8d5a8] text-[0.75rem] font-light tracking-[0.2em] uppercase backdrop-blur-sm hover:bg-[#c9a96e]/10 hover:border-[#c9a96e] hover:-translate-y-1 transition-all duration-300"
             >
-              View Activities
+              For Organizations
             </a>
           </div>
         </div>

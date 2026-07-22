@@ -1,8 +1,8 @@
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Flower2, Wind, Trees, Sparkles, PartyPopper, HeartPulse } from 'lucide-react';
 
 interface ActivityCategory {
   title: string;
-  emoji: string;
+  icon: typeof Flower2;
   subtitle: string;
   activities: string[];
   wide?: boolean;
@@ -11,32 +11,32 @@ interface ActivityCategory {
 const activityCategories: ActivityCategory[] = [
   {
     title: 'Meditation',
-    emoji: '🧘',
+    icon: Flower2,
     subtitle: 'Transform your mind and spirit',
     activities: ['Omkara Meditation', 'Soham Meditation', 'Chakra Activations', 'Guided Meditations'],
   },
   {
     title: 'Yoga',
-    emoji: '🌿',
+    icon: Wind,
     subtitle: 'Balance body and soul',
     activities: ['Hatha Yoga', 'Gentle Stretch & Mobility Yoga', 'Pranayama & Breathwork', 'Guided Yoga Sessions'],
   },
   {
     title: 'Adventures',
-    emoji: '🌲',
+    icon: Trees,
     subtitle: 'Reconnect with nature',
     activities: ['Group Hiking', 'Forest Bathing Experiences', 'Mindful Walking Trails'],
   },
   {
     title: 'Spa Therapies',
-    emoji: '✨',
+    icon: Sparkles,
     subtitle: 'Rejuvenate and restore your complete being',
     activities: ['Abhyagam Therapy', 'Swedish Massage', 'Belinish Treatment', 'Aromatherapy', 'Deep Tissue Massage'],
     wide: true,
   },
   {
     title: 'Playful Activities',
-    emoji: '🎶',
+    icon: PartyPopper,
     subtitle: 'Celebrate life together',
     activities: ['Bonfire Under the Stars', 'Moon Gazing', 'Musical Nights', 'Garden Walks', 'Memory & Cognitive Wellness Games', 'Indoor & Outdoor Recreational Activities'],
   },
@@ -44,17 +44,17 @@ const activityCategories: ActivityCategory[] = [
 
 const highlights = [
   {
-    emoji: '🌬️',
+    icon: Wind,
     title: 'Mindful Practices',
     description: 'Meditation, yoga, and breathwork sessions designed to center your mind and calm your spirit',
   },
   {
-    emoji: '🌳',
+    icon: Trees,
     title: 'Nature Immersion',
     description: 'Forest bathing, hiking trails, and garden experiences that reconnect you with the natural world',
   },
   {
-    emoji: '💆',
+    icon: HeartPulse,
     title: 'Holistic Wellness',
     description: 'Spa therapies, therapeutic treatments, and wellness sessions for complete rejuvenation',
   },
@@ -95,41 +95,44 @@ export default function Activities() {
 
         {/* Activities Masonry Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
-          {activityCategories.map((cat, i) => (
-            <div
-              key={i}
-              className={`act-card group relative bg-[#fffdf8] rounded-2xl p-7 border border-[#c9a96e]/12 shadow-[0_2px_20px_rgba(45,62,38,0.04)] hover:shadow-[0_16px_50px_rgba(45,62,38,0.10)] hover:-translate-y-1.5 hover:border-[#c9a96e]/25 transition-all duration-400 overflow-hidden${cat.wide ? ' md:col-span-2' : ''}`}
-            >
-              {/* Accent top bar */}
-              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#7a9b74] to-[#c9a96e] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400 rounded-t-2xl" />
-
-              {/* Icon */}
-              <div className="w-13 h-13 w-[52px] h-[52px] rounded-xl bg-gradient-to-br from-[#7a9b74]/12 to-[#7a9b74]/04 border border-[#7a9b74]/15 flex items-center justify-center text-[1.35rem] mb-5 group-hover:bg-gradient-to-br group-hover:from-[#c9a96e]/20 group-hover:to-[#c9a96e]/08 group-hover:border-[#c9a96e]/30 transition-all duration-300">
-                {cat.emoji}
-              </div>
-
-              <h3
-                className="text-[#2d3e26] text-[1.55rem] font-light leading-tight mb-1.5"
-                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+          {activityCategories.map((cat, i) => {
+            const Icon = cat.icon;
+            return (
+              <div
+                key={i}
+                className={`act-card group relative bg-[#fffdf8] rounded-2xl p-7 border border-[#c9a96e]/12 shadow-[0_2px_20px_rgba(45,62,38,0.04)] hover:shadow-[0_16px_50px_rgba(45,62,38,0.10)] hover:-translate-y-1.5 hover:border-[#c9a96e]/25 transition-all duration-400 overflow-hidden${cat.wide ? ' md:col-span-2' : ''}`}
               >
-                {cat.title}
-              </h3>
-              <p className="italic text-[#c9a96e] text-[0.85rem] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-                {cat.subtitle}
-              </p>
+                {/* Accent top bar */}
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#7a9b74] to-[#c9a96e] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400 rounded-t-2xl" />
 
-              <div className="flex flex-wrap gap-2">
-                {cat.activities.map((act, j) => (
-                  <span
-                    key={j}
-                    className="text-[0.72rem] text-[#4a5e42] bg-[#7a9b74]/08 border border-[#7a9b74]/15 px-3 py-1.5 rounded-full font-light"
-                  >
-                    {act}
-                  </span>
-                ))}
+                {/* Icon */}
+                <div className="w-[52px] h-[52px] rounded-xl bg-gradient-to-br from-[#7a9b74]/12 to-[#7a9b74]/04 border border-[#7a9b74]/15 flex items-center justify-center mb-5 group-hover:bg-gradient-to-br group-hover:from-[#c9a96e]/20 group-hover:to-[#c9a96e]/08 group-hover:border-[#c9a96e]/30 transition-all duration-300">
+                  <Icon className="w-6 h-6 text-[#7a9b74] group-hover:text-[#c9a96e] transition-colors duration-300" strokeWidth={1.6} />
+                </div>
+
+                <h3
+                  className="text-[#2d3e26] text-[1.55rem] font-light leading-tight mb-1.5"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
+                  {cat.title}
+                </h3>
+                <p className="italic text-[#c9a96e] text-[0.85rem] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+                  {cat.subtitle}
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  {cat.activities.map((act, j) => (
+                    <span
+                      key={j}
+                      className="text-[0.72rem] text-[#4a5e42] bg-[#7a9b74]/08 border border-[#7a9b74]/15 px-3 py-1.5 rounded-full font-light"
+                    >
+                      {act}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Featured Experience Banner */}
@@ -175,23 +178,26 @@ export default function Activities() {
 
         {/* Highlights Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {highlights.map((h, i) => (
-            <div
-              key={i}
-              className="group bg-[#fffdf8] rounded-2xl p-7 border border-[#c9a96e]/12 hover:border-[#c9a96e]/30 hover:shadow-[0_14px_40px_rgba(45,62,38,0.09)] hover:-translate-y-1 transition-all duration-400"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2d3e26] to-[#3a4d30] flex items-center justify-center text-[1.5rem] mb-5 shadow-lg group-hover:scale-110 transition-transform duration-400">
-                {h.emoji}
-              </div>
-              <h4
-                className="text-[#2d3e26] text-[1.25rem] font-light mb-2.5"
-                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+          {highlights.map((h, i) => {
+            const Icon = h.icon;
+            return (
+              <div
+                key={i}
+                className="group bg-[#fffdf8] rounded-2xl p-7 border border-[#c9a96e]/12 hover:border-[#c9a96e]/30 hover:shadow-[0_14px_40px_rgba(45,62,38,0.09)] hover:-translate-y-1 transition-all duration-400"
               >
-                {h.title}
-              </h4>
-              <p className="text-[#4a5e42] text-[0.84rem] leading-relaxed font-light">{h.description}</p>
-            </div>
-          ))}
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#2d3e26] to-[#3a4d30] flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-400">
+                  <Icon className="w-6 h-6 text-[#e8d5a8]" strokeWidth={1.6} />
+                </div>
+                <h4
+                  className="text-[#2d3e26] text-[1.25rem] font-light mb-2.5"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
+                  {h.title}
+                </h4>
+                <p className="text-[#4a5e42] text-[0.84rem] leading-relaxed font-light">{h.description}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

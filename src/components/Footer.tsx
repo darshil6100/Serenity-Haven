@@ -1,3 +1,4 @@
+import { Phone, Mail, Heart } from 'lucide-react';
 import Logo from './logo';
 
 export default function Footer() {
@@ -44,7 +45,7 @@ export default function Footer() {
               A sanctuary where healing meets stillness, and nature restores the soul. Luxury wellness experiences curated for the mind, body, and soul.
             </p>
             <div className="flex items-center gap-2 mt-5 text-[#7a9b74]/70">
-              <span className="text-sm">♥</span>
+              <Heart className="w-3.5 h-3.5" strokeWidth={1.8} fill="currentColor" />
               <span className="text-[0.72rem] tracking-wider font-light">Crafted with care for your wellbeing</span>
             </div>
           </div>
@@ -59,6 +60,7 @@ export default function Footer() {
               {[
                 { label: 'Home', href: '#hero' },
                 { label: 'Our Packages', href: '#packages' },
+                { label: 'For Organizations', href: '#corporate' },
                 { label: 'Activities', href: '#activities' },
                 { label: 'Contact Us', href: '#contact' },
               ].map((link) => (
@@ -86,8 +88,8 @@ export default function Footer() {
               href="tel:9974542678"
               className="flex items-center gap-3.5 mb-4 group no-underline"
             >
-              <div className="w-9 h-9 rounded-xl bg-[#7a9b74]/10 flex items-center justify-center text-[0.9rem] flex-shrink-0 group-hover:bg-[#7a9b74]/20 transition-colors">
-                📞
+              <div className="w-9 h-9 rounded-xl bg-[#7a9b74]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#7a9b74]/20 transition-colors">
+                <Phone className="w-4 h-4 text-[#a8c4a0]" strokeWidth={1.8} />
               </div>
               <div>
                 <div className="text-[0.58rem] tracking-[0.2em] text-[#7a9b74]/80 uppercase font-medium mb-0.5">Phone</div>
@@ -99,8 +101,8 @@ export default function Footer() {
               href="mailto:support@serenityhaven.in"
               className="flex items-center gap-3.5 mb-6 group no-underline"
             >
-              <div className="w-9 h-9 rounded-xl bg-[#c9a96e]/10 flex items-center justify-center text-[0.9rem] flex-shrink-0 group-hover:bg-[#c9a96e]/20 transition-colors">
-                ✉️
+              <div className="w-9 h-9 rounded-xl bg-[#c9a96e]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#c9a96e]/20 transition-colors">
+                <Mail className="w-4 h-4 text-[#c9a96e]" strokeWidth={1.8} />
               </div>
               <div>
                 <div className="text-[0.58rem] tracking-[0.2em] text-[#7a9b74]/80 uppercase font-medium mb-0.5">Email</div>

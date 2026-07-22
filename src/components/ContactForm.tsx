@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Phone, Mail } from 'lucide-react';
 import { sendContactEmail, type ContactFormData } from '../../server/index.ts';
 
 const packageOptions = [
@@ -9,6 +9,9 @@ const packageOptions = [
   'Golden Years Grace - Retreat for Seniors',
   'Pain to Peace Trek',
   'Roots & Wings Retreat',
+  'On-Site Corporate Wellness Session',
+  'Online Corporate Wellness Program',
+  'Custom Corporate Package',
 ];
 
 const EMPTY_FORM: ContactFormData = {
@@ -70,7 +73,7 @@ export default function ContactForm() {
             Get Personalized <em className="not-italic italic text-[#4a5e42]">Information</em>
           </h2>
           <p className="text-[1rem] text-[#4a5e42] font-light max-w-xl mx-auto leading-relaxed">
-            Have questions or need a customized wellness package? We're here to help you begin your journey.
+            Have questions or need a customized wellness package — for yourself or your organization? We're here to help you begin your journey.
           </p>
         </div>
 
@@ -87,12 +90,14 @@ export default function ContactForm() {
                 Begin Your Wellness Journey with Us
               </h3>
               <p className="text-[#4a5e42] text-[0.88rem] font-light leading-relaxed">
-                Our wellness experts are ready to guide you toward the perfect retreat. Reach out and let us craft an experience that truly nurtures your mind, body, and soul.
+                Our wellness experts are ready to guide you toward the perfect retreat, or design a program for your team. Reach out and let us craft an experience that truly nurtures your mind, body, and soul.
               </p>
             </div>
 
             <a href="tel:9974542678" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">📞</div>
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center flex-shrink-0">
+                <Phone className="w-4.5 h-4.5 text-[#4a5e42]" strokeWidth={1.8} />
+              </div>
               <div>
                 <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Phone</div>
                 <div className="text-[0.9rem] text-[#2d3e26] font-medium">9974542678</div>
@@ -100,7 +105,9 @@ export default function ContactForm() {
             </a>
 
             <a href="mailto:serenityhavensupport@gmail.com" className="flex items-center gap-3.5 p-4 bg-[#fffdf8] border border-[#c9a96e]/15 rounded-2xl hover:border-[#c9a96e]/40 hover:translate-x-1 transition-all duration-300 no-underline group">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center text-[1.1rem] flex-shrink-0">✉️</div>
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#7a9b74]/15 to-[#c9a96e]/10 flex items-center justify-center flex-shrink-0">
+                <Mail className="w-4.5 h-4.5 text-[#4a5e42]" strokeWidth={1.8} />
+              </div>
               <div>
                 <div className="text-[0.6rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-0.5">Email</div>
                 <div className="text-[0.88rem] text-[#2d3e26] font-medium break-all">serenityhavensupport@gmail.com</div>
@@ -202,7 +209,7 @@ export default function ContactForm() {
                   </label>
                   <textarea
                     name="message" value={formData.message} onChange={handleChange} required rows={5}
-                    placeholder="Tell us about your wellness goals, any specific requirements, or questions you may have..."
+                    placeholder="Tell us about your wellness goals, team size, or any specific requirements..."
                     className="w-full px-4 py-3.5 bg-[#f0e8d4]/30 border border-[#c9a96e]/20 focus:border-[#7a9b74] focus:bg-white rounded-xl outline-none transition-all duration-300 resize-none text-[#2d3e26] text-[0.88rem] font-light placeholder:text-[#c9a96e]/40 focus:shadow-[0_0_0_3px_rgba(122,155,116,0.1)]"
                   />
                 </div>
