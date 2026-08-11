@@ -63,7 +63,7 @@ export default function ContactForm() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="h-px w-10 bg-[#7a9b74]" />
-            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#7a9b74] uppercase">Get In Touch</span>
+            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#7a9b74] uppercase">Contact Us</span>
             <div className="h-px w-10 bg-[#7a9b74]" />
           </div>
           <h2
