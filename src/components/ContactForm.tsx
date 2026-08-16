@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle, Phone, Mail } from 'lucide-react';
-import { sendContactEmail, type ContactFormData } from '../../server/index.ts';
+import { sendContactEmail, type ContactFormData } from '../lib/contactEmail';
 
 const packageOptions = [
   'One Day Serenity Experience',

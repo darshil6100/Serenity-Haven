@@ -35,35 +35,67 @@ function getOfferEndsIn(offerEndsAt: string | undefined, currentTime: Date) {
 }
 
 const packages: Package[] = [
-  {
-    id: 'pkg1',
-    title: 'One Day Serenity Experience',
-    subtitle: 'A day to pause. A lifetime to breathe.',
-    duration: 'Full Day (Dawn to Dusk)',
-    focus: 'Stress Decompression & Mental Clarity',
-    inclusions: ['Personalized Doctor consultation', 'Morning Yoga and Breathwork', 'Satvik & Balanced Meals', 'Guided Meditation Sessions'],
-    complementary: ['Personalized Diet Plans from doctor', 'Herbal welcome drink & detox tea'],
-    addOns: [],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=80',
-    badge: 'POPULAR',
-    seatsLeft: 1,
-    offerEndsAt: '2026-09-16T13:20:59+05:30',
-  },
-  {
-    id: 'pkg2',
-    title: 'Nourish & Revive Vitality Retreat',
-    subtitle: 'Reconnect with your inner rhythm.',
-    duration: '2 Days, 1 Night',
-    focus: 'Lifestyle Reset with Relaxation & Recreation',
-    inclusions: ['Resort-ambience premium wellness suites', 'Personalized Doctor consultation', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided Meditation Sessions', 'Fun Group Activities'],
-    complementary: ['Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy', 'Health talks & wellness guidance', 'Evening herbal detox drinks'],
-    addOns: ['Spa Therapies'],
-    image: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=900&q=80',
-    badge: 'BEST VALUE',
-    seatsLeft: 1,
-    offerEndsAt: '2026-08-16T13:00:59+05:30',
-  },
+  // {
+  //   id: 'pkg1',
+  //   title: 'One Day Serenity Experience',
+  //   subtitle: 'A day to pause. A lifetime to breathe.',
+  //   duration: 'Full Day (Dawn to Dusk)',
+  //   focus: 'Stress Decompression & Mental Clarity',
+  //   inclusions: ['Personalized Doctor consultation', 'Morning Yoga and Breathwork', 'Satvik & Balanced Meals', 'Guided Meditation Sessions'],
+  //   complementary: ['Personalized Diet Plans from doctor', 'Herbal welcome drink & detox tea'],
+  //   addOns: [],
+  //   image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=80',
+  //   badge: 'POPULAR',
+  //   seatsLeft: 1,
+  //   offerEndsAt: '2026-09-16T13:20:59+05:30',
+  // },
+  // {
+  //   id: 'pkg2',
+  //   title: 'Nourish & Revive Vitality Retreat',
+  //   subtitle: 'Reconnect with your inner rhythm.',
+  //   duration: '2 Days, 1 Night',
+  //   focus: 'Lifestyle Reset with Relaxation & Recreation',
+  //   inclusions: ['Resort-ambience premium wellness suites', 'Personalized Doctor consultation', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided Meditation Sessions', 'Fun Group Activities'],
+  //   complementary: ['Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy', 'Health talks & wellness guidance', 'Evening herbal detox drinks'],
+  //   addOns: ['Spa Therapies'],
+  //   image: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=900&q=80',
+  //   badge: 'BEST VALUE',
+  //   seatsLeft: 1,
+  //   offerEndsAt: '2026-08-16T13:00:59+05:30',
+  // },
 ];
+
+async function fetchPackages() {
+  const response = await fetch('/api/packages');
+
+  if (!response.ok) {
+    throw new Error('Failed to load packages');
+  }
+
+  const data = await response.json() as { packages?: Package[] };
+  return Array.isArray(data.packages) ? data.packages.map(normalizePackage) : [];
+}
+
+function normalizeList(value: unknown) {
+  if (Array.isArray(value)) return value.map(String);
+  if (typeof value !== 'string') return [];
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return value.split(',').map(item => item.trim()).filter(Boolean);
+  }
+}
+
+function normalizePackage(pkg: Package & Record<string, unknown>): Package {
+  return {
+    ...pkg,
+    inclusions: normalizeList(pkg.inclusions),
+    complementary: normalizeList(pkg.complementary),
+    addOns: normalizeList(pkg.addOns ?? pkg.add_ons),
+  };
+}
 
 function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package; currentTime: Date; onOpen: (p: Package) => void; onViewDetails: () => void }) {
   const offerEndsIn = getOfferEndsIn(pkg.offerEndsAt, currentTime);
@@ -129,6 +161,11 @@ function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package
         <div className="flex-1 mb-5">
           <p className="text-[0.62rem] font-semibold tracking-[0.2em] text-[#7a9b74] uppercase mb-3">What's Included</p>
           <ul className="space-y-2">
+            {pkg.inclusions.length === 0 && (
+              <li className="text-[0.82rem] text-[#4a5e42] font-light leading-snug">
+                Package details will be updated soon.
+              </li>
+            )}
             {pkg.inclusions.slice(0, 4).map((item, i) => (
               <li key={i} className="flex items-start gap-2.5 text-[0.82rem] text-[#4a5e42] font-light leading-snug">
                 <span className="text-[#c9a96e] text-[0.55rem] mt-[5px] flex-shrink-0">✦</span>
@@ -201,6 +238,11 @@ function PackageModal({ pkg, currentTime, onClose }: { pkg: Package | null; curr
             <div>
               <h4 className="text-[0.62rem] font-semibold tracking-[0.25em] text-[#7a9b74] uppercase mb-3">What's Included</h4>
               <ul className="space-y-2.5">
+                {pkg.inclusions.length === 0 && (
+                  <li className="text-[0.84rem] text-[#4a5e42] leading-snug font-light">
+                    Package details will be updated soon.
+                  </li>
+                )}
                 {pkg.inclusions.map((item, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-[0.84rem] text-[#4a5e42] leading-snug font-light">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#c9a96e] mt-1.5 flex-shrink-0" />
@@ -248,6 +290,31 @@ function PackageModal({ pkg, currentTime, onClose }: { pkg: Package | null; curr
 export default function Packages({ onViewDetails }: { onViewDetails: () => void }) {
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
   const [currentTime, setCurrentTime] = useState(() => new Date());
+  const [packageList, setPackageList] = useState<Package[]>(packages);
+  const [isLoadingPackages, setIsLoadingPackages] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchPackages()
+      .then(apiPackages => {
+        if (isMounted && apiPackages.length > 0) {
+          setPackageList(apiPackages);
+        }
+      })
+      .catch(error => {
+        console.error('Package API error:', error);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoadingPackages(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => setCurrentTime(new Date()), 60000);
@@ -273,8 +340,13 @@ export default function Packages({ onViewDetails }: { onViewDetails: () => void 
         </div>
 
         {/* Grid */}
+        {isLoadingPackages && (
+          <div className="mb-8 text-center text-[0.76rem] font-medium uppercase tracking-[0.22em] text-[#7a9b74]">
+            Loading packages...
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {packages.map(pkg => <PackageCard key={pkg.id} pkg={pkg} currentTime={currentTime} onOpen={setSelectedPkg} onViewDetails={onViewDetails} />)}
+          {packageList.map(pkg => <PackageCard key={pkg.id} pkg={pkg} currentTime={currentTime} onOpen={setSelectedPkg} onViewDetails={onViewDetails} />)}
         </div>
 
         {/* Custom Package Banner */}
