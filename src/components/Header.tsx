@@ -1,6 +1,7 @@
+import Logo from './logo';
 type HeaderProps = {
-  currentPage: 'home' | 'packages' | 'contact';
-  onNavigate: (page: 'home' | 'packages' | 'contact') => void;
+  currentPage: 'home' | 'packages' | 'contact' | 'brochure';
+  onNavigate: (page: 'home' | 'packages' | 'contact' | 'brochure') => void;
 };
 
 export default function Header({ currentPage, onNavigate }: HeaderProps) {
@@ -12,14 +13,16 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
           onClick={() => onNavigate('home')}
           className="flex items-center gap-3 text-[#f5ecdc] transition-opacity hover:opacity-90"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#c9a96e]/35 bg-[#1a2419] text-[#e8d5a8] shadow-[0_0_20px_rgba(201,169,110,0.2)]">
-            <span className="text-sm font-medium tracking-[0.22em]">S</span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-full text-[#e8d5a8] sha">
+            <span className="text-sm font-medium tracking-[0.22em]"><Logo /></span>
           </div>
           <div>
+            <div className="text-[0.56rem] font-medium tracking-[0.28em] text-[#c9a96e] uppercase">The</div>
             <div className="text-[0.56rem] font-medium tracking-[0.28em] text-[#c9a96e] uppercase">Serenity</div>
-            <div className="text-lg italic text-[#faf7f0]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+            <div className="text-[0.65rem] italic text-[#faf7f0] font-medium tracking-[0.28em] text-[#c9a96e] uppercase" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Haven</div>
+            {/* <div className="text-lg italic text-[#faf7f0]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               Haven
-            </div>
+            </div> */}
           </div>
         </button>
 

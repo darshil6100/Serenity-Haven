@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Clock, Target, ChevronRight } from 'lucide-react';
+import { X, Clock, Target, ChevronRight, Users } from 'lucide-react';
 
 interface Package {
   id: string;
@@ -12,6 +12,8 @@ interface Package {
   addOns?: string[];
   image: string;
   badge?: string;
+  seatsLeft?: number;
+  offerEndsIn?: string;
 }
 
 const packages: Package[] = [
@@ -26,67 +28,26 @@ const packages: Package[] = [
     addOns: [],
     image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=80',
     badge: 'POPULAR',
+    seatsLeft: 1,
+    offerEndsIn: '4 hours left',
   },
   {
     id: 'pkg2',
-    title: 'Nourish & Revive Vitality Retreat',
-    subtitle: 'Reconnect with your inner rhythm.',
-    duration: '2 Days, 1 Night',
-    focus: 'Lifestyle Reset with Relaxation & Recreation',
-    inclusions: ['Resort-ambience premium wellness suites', 'Personalized Doctor consultation', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided Meditation Sessions', 'Fun Group Activities'],
-    complementary: ['Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy', 'Health talks & wellness guidance', 'Evening herbal detox drinks'],
-    addOns: ['Spa Therapies'],
-    image: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=900&q=80',
-    badge: 'BEST VALUE',
-  },
-  {
-    id: 'pkg3',
-    title: 'Detox & Rejuvenation Retreat',
-    subtitle: 'A profound transformation from the inside out.',
-    duration: '3 Days, 2 Nights',
-    focus: 'Detoxification & Spiritual Alignment',
-    inclusions: ['3 days luxury nature-centric living', 'Personalized Doctor consultation', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided meditation sessions', 'Fun Group Activities'],
-    complementary: ['Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy', 'Health talks', 'Detox welcome drink'],
-    addOns: ['Spa Therapies'],
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=900&q=80',
-  },
-  {
-    id: 'pkg4',
-    title: 'Golden Years Grace',
-    subtitle: 'Longevity, dignity, and the art of aging well.',
-    duration: '3 Days, 2 Nights',
-    focus: 'Mobility, Cognitive Health & Rejuvenation',
-    inclusions: ['Luxury serene nature-centric stay', 'Geriatric-focused health screening', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided Meditation Sessions', 'Fun Group Activities'],
-    complementary: ['Health talk on Graceful Aging & Preventive Care', 'Personalized Diet Plans from Doctor', 'Detox welcome drink'],
+    title: 'Two Day Serenity Experience',
+    subtitle: 'A day to pause. A lifetime to breathe.',
+    duration: 'Full Day (Dawn to Dusk)',
+    focus: 'Stress Decompression & Mental Clarity',
+    inclusions: ['Personalized Doctor consultation', 'Morning Yoga and Breathwork', 'Satvik & Balanced Meals', 'Guided Meditation Sessions'],
+    complementary: ['Personalized Diet Plans from doctor', 'Herbal welcome drink & detox tea'],
     addOns: [],
-    image: 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=900&q=80',
-  },
-  {
-    id: 'pkg5',
-    title: 'Pain to Peace Trek',
-    subtitle: 'Conquer the trail, calm the mind.',
-    duration: '2 Days, 1 Night',
-    focus: 'Team Synergy & Physical Endurance',
-    inclusions: ['Guided mindful moderate trek', 'Premium wellness suite accommodation', 'Personalized Doctor Consultation', 'Morning Yoga & Breathwork', 'Guided Meditation Sessions', 'Satvik & Balanced Meals', 'Fun Group Activities'],
-    complementary: ['Health talk & wellness guidance', 'Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy'],
-    addOns: [],
-    image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=80',
-  },
-  {
-    id: 'pkg6',
-    title: 'Roots & Wings Retreat',
-    subtitle: 'Growing healthy, growing together.',
-    duration: '3 Days, 2 Nights',
-    focus: 'Intergenerational Connection & Family Vitality',
-    inclusions: ['Premium wellness suite stay', 'Personalized Doctor Consultation', 'Morning Yoga and Breathwork', 'Satvik & Balanced Meals', 'Guided Meditation Sessions', 'Fun Group Activities'],
-    complementary: ['Health talk & wellness guidance', 'Personalized Diet Plans from Doctor'],
-    addOns: [],
-    image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=900&q=80',
-    badge: 'FAMILY',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=80',
+    badge: 'POPULAR',
+    seatsLeft: 1,
+    offerEndsIn: '4 hours left',
   },
 ];
 
-function PackageCard({ pkg, onOpen }: { pkg: Package; onOpen: (p: Package) => void }) {
+function PackageCard({ pkg, onOpen, onViewDetails }: { pkg: Package; onOpen: (p: Package) => void; onViewDetails: () => void }) {
   return (
     <div
       className="pkg-card group relative bg-[#fffdf8] rounded-2xl overflow-hidden border border-[#c9a96e]/15 shadow-[0_4px_30px_rgba(45,62,38,0.06)] hover:shadow-[0_20px_60px_rgba(45,62,38,0.14)] hover:border-[#c9a96e]/35 hover:-translate-y-2 transition-all duration-500 cursor-pointer flex flex-col"
@@ -113,6 +74,23 @@ function PackageCard({ pkg, onOpen }: { pkg: Package; onOpen: (p: Package) => vo
 
       {/* Body */}
       <div className="p-6 flex flex-col flex-1">
+        {(pkg.seatsLeft || pkg.offerEndsIn) && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {pkg.seatsLeft && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#a8592f]/10 border border-[#a8592f]/20 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#a8592f]">
+                <Users className="w-3 h-3" />
+                {pkg.seatsLeft} {pkg.seatsLeft === 1 ? 'left' : 'left'}
+              </span>
+            )}
+            {pkg.offerEndsIn && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#c9a96e]/12 border border-[#c9a96e]/25 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#7a5a20]">
+                <Clock className="w-3 h-3" />
+                {pkg.offerEndsIn}
+              </span>
+            )}
+          </div>
+        )}
+
         <div className="flex flex-wrap gap-3 mb-5 pb-5 border-b border-[#c9a96e]/15">
           <div className="flex items-center gap-2 text-[0.73rem] text-[#4a5e42]">
             <div className="w-7 h-7 rounded-lg bg-[#7a9b74]/10 flex items-center justify-center">
@@ -145,7 +123,7 @@ function PackageCard({ pkg, onOpen }: { pkg: Package; onOpen: (p: Package) => vo
 
         <div className="flex items-center justify-between pt-4 border-t border-[#c9a96e]/12">
           <button
-            onClick={e => { e.stopPropagation(); onOpen(pkg); }}
+            onClick={e => { e.stopPropagation(); onViewDetails(); }}
             className="text-[0.7rem] text-[#c9a96e] underline underline-offset-2 decoration-transparent hover:decoration-[#c9a96e] transition-all font-light"
           >
             View All Details
@@ -186,6 +164,16 @@ function PackageModal({ pkg, onClose }: { pkg: Package | null; onClose: () => vo
           <div className="flex flex-wrap gap-3 mb-6">
             <span className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#7a9b74]/08 border border-[#7a9b74]/15 text-[#4a5e42] text-[0.78rem]">🕐 {pkg.duration}</span>
             <span className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#c9a96e]/08 border border-[#c9a96e]/15 text-[#4a5e42] text-[0.78rem]">🎯 {pkg.focus}</span>
+            {pkg.seatsLeft && (
+              <span className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#a8592f]/08 border border-[#a8592f]/15 text-[#a8592f] text-[0.78rem] font-medium">
+                <Users className="w-3.5 h-3.5" /> {pkg.seatsLeft} left
+              </span>
+            )}
+            {pkg.offerEndsIn && (
+              <span className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#c9a96e]/08 border border-[#c9a96e]/15 text-[#7a5a20] text-[0.78rem] font-medium">
+                <Clock className="w-3.5 h-3.5" /> {pkg.offerEndsIn}
+              </span>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
@@ -235,7 +223,7 @@ function PackageModal({ pkg, onClose }: { pkg: Package | null; onClose: () => vo
   );
 }
 
-export default function Packages() {
+export default function Packages({ onViewDetails }: { onViewDetails: () => void }) {
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
 
   return (
@@ -258,7 +246,7 @@ export default function Packages() {
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {packages.map(pkg => <PackageCard key={pkg.id} pkg={pkg} onOpen={setSelectedPkg} />)}
+          {packages.map(pkg => <PackageCard key={pkg.id} pkg={pkg} onOpen={setSelectedPkg} onViewDetails={onViewDetails} />)}
         </div>
 
         {/* Custom Package Banner */}

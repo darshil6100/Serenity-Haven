@@ -28,7 +28,7 @@ export default function Footer() {
         <Logo className="w-24 h-24" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-14 pb-14 border-b border-[#c9a96e]/10">
           {/* Brand */}
           <div>

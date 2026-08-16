@@ -6,6 +6,9 @@ import Activities from './components/Activities';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import CorporateWellness from './components/CorporateWellness';
+import WellnessRetreatBrochure from './components/WellnessRetreatBrochure';
+
+type Page = 'home' | 'packages' | 'contact' | 'brochure';
 
 function HomePage() {
   return (
@@ -18,10 +21,10 @@ function HomePage() {
   );
 }
 
-function PackagesPage() {
+function PackagesPage({ onViewDetails }: { onViewDetails: () => void }) {
   return (
     <>
-      <Packages />
+      <Packages onViewDetails={onViewDetails} />
       <Footer />
     </>
   );
@@ -36,8 +39,17 @@ function ContactPage() {
   );
 }
 
+function PackageViewPage({ onBack }: { onBack: () => void }) {
+  return (
+    <>
+      <WellnessRetreatBrochure onBack={onBack} />
+      <Footer />
+    </>
+  );
+}
+
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'packages' | 'contact'>('home');
+  const [currentPage, setCurrentPage] = useState<Page>('home');
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -47,8 +59,9 @@ function App() {
     <div className="min-h-screen">
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />
       {currentPage === 'home' && <HomePage />}
-      {currentPage === 'packages' && <PackagesPage />}
+      {currentPage === 'packages' && <PackagesPage onViewDetails={() => setCurrentPage('brochure')} />}
       {currentPage === 'contact' && <ContactPage />}
+      {currentPage === 'brochure' && <PackageViewPage onBack={() => setCurrentPage('packages')} />}
     </div>
   );
 }
