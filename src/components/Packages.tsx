@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X, Clock, Target, ChevronRight, Users } from 'lucide-react';
 
 interface Package {
@@ -13,7 +13,25 @@ interface Package {
   image: string;
   badge?: string;
   seatsLeft?: number;
-  offerEndsIn?: string;
+  offerEndsAt?: string;
+}
+
+function getOfferEndsIn(offerEndsAt: string | undefined, currentTime: Date) {
+  if (!offerEndsAt) return '';
+
+  const endTime = new Date(offerEndsAt).getTime();
+  const diffMs = endTime - currentTime.getTime();
+
+  if (Number.isNaN(endTime)) return '';
+  if (diffMs <= 0) return 'Offer ended';
+
+  const minutes = Math.ceil(diffMs / (1000 * 60));
+  const hours = Math.ceil(diffMs / (1000 * 60 * 60));
+  const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  if (minutes < 60) return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} left`;
+  if (hours < 24) return `${hours} ${hours === 1 ? 'hour' : 'hours'} left`;
+  return `${days} ${days === 1 ? 'day' : 'days'} left`;
 }
 
 const packages: Package[] = [
@@ -29,25 +47,27 @@ const packages: Package[] = [
     image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=80',
     badge: 'POPULAR',
     seatsLeft: 1,
-    offerEndsIn: '4 hours left',
+    offerEndsAt: '2026-09-16T13:20:59+05:30',
   },
   {
     id: 'pkg2',
-    title: 'Two Day Serenity Experience',
-    subtitle: 'A day to pause. A lifetime to breathe.',
-    duration: 'Full Day (Dawn to Dusk)',
-    focus: 'Stress Decompression & Mental Clarity',
-    inclusions: ['Personalized Doctor consultation', 'Morning Yoga and Breathwork', 'Satvik & Balanced Meals', 'Guided Meditation Sessions'],
-    complementary: ['Personalized Diet Plans from doctor', 'Herbal welcome drink & detox tea'],
-    addOns: [],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&q=80',
-    badge: 'POPULAR',
+    title: 'Nourish & Revive Vitality Retreat',
+    subtitle: 'Reconnect with your inner rhythm.',
+    duration: '2 Days, 1 Night',
+    focus: 'Lifestyle Reset with Relaxation & Recreation',
+    inclusions: ['Resort-ambience premium wellness suites', 'Personalized Doctor consultation', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided Meditation Sessions', 'Fun Group Activities'],
+    complementary: ['Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy', 'Health talks & wellness guidance', 'Evening herbal detox drinks'],
+    addOns: ['Spa Therapies'],
+    image: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=900&q=80',
+    badge: 'BEST VALUE',
     seatsLeft: 1,
-    offerEndsIn: '4 hours left',
+    offerEndsAt: '2026-08-16T13:00:59+05:30',
   },
 ];
 
-function PackageCard({ pkg, onOpen, onViewDetails }: { pkg: Package; onOpen: (p: Package) => void; onViewDetails: () => void }) {
+function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package; currentTime: Date; onOpen: (p: Package) => void; onViewDetails: () => void }) {
+  const offerEndsIn = getOfferEndsIn(pkg.offerEndsAt, currentTime);
+
   return (
     <div
       className="pkg-card group relative bg-[#fffdf8] rounded-2xl overflow-hidden border border-[#c9a96e]/15 shadow-[0_4px_30px_rgba(45,62,38,0.06)] hover:shadow-[0_20px_60px_rgba(45,62,38,0.14)] hover:border-[#c9a96e]/35 hover:-translate-y-2 transition-all duration-500 cursor-pointer flex flex-col"
@@ -74,7 +94,7 @@ function PackageCard({ pkg, onOpen, onViewDetails }: { pkg: Package; onOpen: (p:
 
       {/* Body */}
       <div className="p-6 flex flex-col flex-1">
-        {(pkg.seatsLeft || pkg.offerEndsIn) && (
+        {(pkg.seatsLeft || offerEndsIn) && (
           <div className="flex flex-wrap gap-2 mb-4">
             {pkg.seatsLeft && (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[#a8592f]/10 border border-[#a8592f]/20 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#a8592f]">
@@ -82,10 +102,10 @@ function PackageCard({ pkg, onOpen, onViewDetails }: { pkg: Package; onOpen: (p:
                 {pkg.seatsLeft} {pkg.seatsLeft === 1 ? 'left' : 'left'}
               </span>
             )}
-            {pkg.offerEndsIn && (
+            {offerEndsIn && (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[#c9a96e]/12 border border-[#c9a96e]/25 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#7a5a20]">
                 <Clock className="w-3 h-3" />
-                {pkg.offerEndsIn}
+                {offerEndsIn}
               </span>
             )}
           </div>
@@ -141,8 +161,10 @@ function PackageCard({ pkg, onOpen, onViewDetails }: { pkg: Package; onOpen: (p:
   );
 }
 
-function PackageModal({ pkg, onClose }: { pkg: Package | null; onClose: () => void }) {
+function PackageModal({ pkg, currentTime, onClose }: { pkg: Package | null; currentTime: Date; onClose: () => void }) {
   if (!pkg) return null;
+  const offerEndsIn = getOfferEndsIn(pkg.offerEndsAt, currentTime);
+
   return (
     <div
       className="fixed inset-0 bg-[#0a1209]/85 backdrop-blur-xl z-[2000] flex items-center justify-center p-4 md:p-8"
@@ -169,9 +191,9 @@ function PackageModal({ pkg, onClose }: { pkg: Package | null; onClose: () => vo
                 <Users className="w-3.5 h-3.5" /> {pkg.seatsLeft} left
               </span>
             )}
-            {pkg.offerEndsIn && (
+            {offerEndsIn && (
               <span className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#c9a96e]/08 border border-[#c9a96e]/15 text-[#7a5a20] text-[0.78rem] font-medium">
-                <Clock className="w-3.5 h-3.5" /> {pkg.offerEndsIn}
+                <Clock className="w-3.5 h-3.5" /> {offerEndsIn}
               </span>
             )}
           </div>
@@ -225,6 +247,12 @@ function PackageModal({ pkg, onClose }: { pkg: Package | null; onClose: () => vo
 
 export default function Packages({ onViewDetails }: { onViewDetails: () => void }) {
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
+  const [currentTime, setCurrentTime] = useState(() => new Date());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
     <section id="packages" className="relative py-28 bg-gradient-to-b from-[#f0e8d4] via-[#faf7f0] to-[#f0e8d4] overflow-hidden">
@@ -246,7 +274,7 @@ export default function Packages({ onViewDetails }: { onViewDetails: () => void 
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {packages.map(pkg => <PackageCard key={pkg.id} pkg={pkg} onOpen={setSelectedPkg} onViewDetails={onViewDetails} />)}
+          {packages.map(pkg => <PackageCard key={pkg.id} pkg={pkg} currentTime={currentTime} onOpen={setSelectedPkg} onViewDetails={onViewDetails} />)}
         </div>
 
         {/* Custom Package Banner */}
@@ -276,7 +304,7 @@ export default function Packages({ onViewDetails }: { onViewDetails: () => void 
         </div>
       </div>
 
-      {selectedPkg && <PackageModal pkg={selectedPkg} onClose={() => setSelectedPkg(null)} />}
+      {selectedPkg && <PackageModal pkg={selectedPkg} currentTime={currentTime} onClose={() => setSelectedPkg(null)} />}
     </section>
   );
 }
