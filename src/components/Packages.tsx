@@ -97,7 +97,7 @@ function normalizePackage(pkg: Package & Record<string, unknown>): Package {
   };
 }
 
-function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package; currentTime: Date; onOpen: (p: Package) => void; onViewDetails: () => void }) {
+function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package; currentTime: Date; onOpen: (p: Package) => void; onViewDetails: (packageId: string) => void }) {
   const offerEndsIn = getOfferEndsIn(pkg.offerEndsAt, currentTime);
 
   return (
@@ -180,7 +180,7 @@ function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package
 
         <div className="flex items-center justify-between pt-4 border-t border-[#c9a96e]/12">
           <button
-            onClick={e => { e.stopPropagation(); onViewDetails(); }}
+            onClick={e => { e.stopPropagation(); onViewDetails(pkg.id); }}
             className="text-[0.7rem] text-[#c9a96e] underline underline-offset-2 decoration-transparent hover:decoration-[#c9a96e] transition-all font-light"
           >
             View All Details
@@ -287,7 +287,7 @@ function PackageModal({ pkg, currentTime, onClose }: { pkg: Package | null; curr
   );
 }
 
-export default function Packages({ onViewDetails }: { onViewDetails: () => void }) {
+export default function Packages({ onViewDetails }: { onViewDetails: (packageId: string) => void }) {
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
   const [currentTime, setCurrentTime] = useState(() => new Date());
   const [packageList, setPackageList] = useState<Package[]>(packages);

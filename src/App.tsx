@@ -21,7 +21,7 @@ function HomePage() {
   );
 }
 
-function PackagesPage({ onViewDetails }: { onViewDetails: () => void }) {
+function PackagesPage({ onViewDetails }: { onViewDetails: (packageId: string) => void }) {
   return (
     <>
       <Packages onViewDetails={onViewDetails} />
@@ -39,10 +39,10 @@ function ContactPage() {
   );
 }
 
-function PackageViewPage({ onBack }: { onBack: () => void }) {
+function PackageViewPage({ packageId, onBack }: { packageId: string; onBack: () => void }) {
   return (
     <>
-      <WellnessRetreatBrochure onBack={onBack} />
+      <WellnessRetreatBrochure packageId={packageId} onBack={onBack} />
       <Footer />
     </>
   );
@@ -50,6 +50,7 @@ function PackageViewPage({ onBack }: { onBack: () => void }) {
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [selectedPackageId, setSelectedPackageId] = useState('pkg2');
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -59,9 +60,12 @@ function App() {
     <div className="min-h-screen">
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />
       {currentPage === 'home' && <HomePage />}
-      {currentPage === 'packages' && <PackagesPage onViewDetails={() => setCurrentPage('brochure')} />}
+      {currentPage === 'packages' && <PackagesPage onViewDetails={(packageId) => {
+        setSelectedPackageId(packageId);
+        setCurrentPage('brochure');
+      }} />}
       {currentPage === 'contact' && <ContactPage />}
-      {currentPage === 'brochure' && <PackageViewPage onBack={() => setCurrentPage('packages')} />}
+      {currentPage === 'brochure' && <PackageViewPage packageId={selectedPackageId} onBack={() => setCurrentPage('packages')} />}
     </div>
   );
 }

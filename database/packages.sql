@@ -20,6 +20,175 @@ CREATE TABLE IF NOT EXISTS packages (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS package_detail_pages (
+  package_id VARCHAR(50) PRIMARY KEY,
+  page_title VARCHAR(255) NOT NULL,
+  hero_image VARCHAR(1000) NOT NULL,
+  hero_badge VARCHAR(120) NULL,
+  hero_eyebrow VARCHAR(255) NULL,
+  hero_title VARCHAR(255) NOT NULL,
+  hero_emphasis VARCHAR(120) NULL,
+  hero_suffix VARCHAR(120) NULL,
+  hero_subtitle TEXT NULL,
+  intro_eyebrow VARCHAR(120) NULL,
+  intro_quote TEXT NULL,
+  intro_body TEXT NULL,
+  facilitator_eyebrow VARCHAR(120) NULL,
+  facilitator_name VARCHAR(255) NULL,
+  facilitator_role VARCHAR(255) NULL,
+  facilitator_image VARCHAR(1000) NULL,
+  facilitator_tag VARCHAR(120) NULL,
+  itinerary_eyebrow VARCHAR(120) NULL,
+  itinerary_heading VARCHAR(255) NULL,
+  rooms_eyebrow VARCHAR(120) NULL,
+  rooms_heading VARCHAR(255) NULL,
+  food_eyebrow VARCHAR(120) NULL,
+  food_heading VARCHAR(255) NULL,
+  food_image VARCHAR(1000) NULL,
+  food_body TEXT NULL,
+  food_badge VARCHAR(255) NULL,
+  activities_eyebrow VARCHAR(120) NULL,
+  activities_heading VARCHAR(255) NULL,
+  pricing_eyebrow VARCHAR(120) NULL,
+  pricing_heading VARCHAR(255) NULL,
+  pricing_ribbon VARCHAR(120) NULL,
+  early_bird_label VARCHAR(120) NULL,
+  early_bird_price VARCHAR(120) NULL,
+  regular_price VARCHAR(120) NULL,
+  pricing_duration VARCHAR(120) NULL,
+  practical_eyebrow VARCHAR(120) NULL,
+  practical_heading VARCHAR(255) NULL,
+  terms_eyebrow VARCHAR(120) NULL,
+  terms_heading VARCHAR(255) NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_detail_page_package
+    FOREIGN KEY (package_id) REFERENCES packages(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_hero_meta (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  label VARCHAR(120) NOT NULL,
+  value VARCHAR(255) NOT NULL,
+  old_value VARCHAR(120) NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_intro_pillars (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  title VARCHAR(120) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_practice_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  image VARCHAR(1000) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  tag VARCHAR(255) NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_facilitator_paragraphs (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  body TEXT NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_facilitator_creds (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  label VARCHAR(120) NOT NULL,
+  value VARCHAR(255) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_itinerary_days (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  date_label VARCHAR(120) NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_itinerary_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  day_id INT UNSIGNED NOT NULL,
+  time_label VARCHAR(80) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (day_id) REFERENCES package_detail_itinerary_days(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_rooms (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  image VARCHAR(1000) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_food_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  time_label VARCHAR(120) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_activities (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  image VARCHAR(1000) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_pricing_inclusions (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  icon VARCHAR(20) NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_practical_items (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  label VARCHAR(120) NOT NULL,
+  value VARCHAR(255) NOT NULL,
+  description TEXT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS package_detail_terms (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  package_id VARCHAR(50) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (package_id) REFERENCES packages(id) ON DELETE CASCADE
+);
+
 INSERT INTO packages (
   id,
   title,
