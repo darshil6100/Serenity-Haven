@@ -1,4 +1,5 @@
-import Logo from './logo';
+import serenityLogo from '../assets/Logo.png';
+
 type HeaderProps = {
   currentPage: 'home' | 'packages' | 'contact' | 'brochure';
   onNavigate: (page: 'home' | 'packages' | 'contact' | 'brochure') => void;
@@ -7,26 +8,26 @@ type HeaderProps = {
 export default function Header({ currentPage, onNavigate }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-[#c9a96e]/15 bg-[#0f1b12]/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+
+        {/* LOGO */}
         <button
           type="button"
           onClick={() => onNavigate('home')}
-          className="flex items-center gap-3 text-[#f5ecdc] transition-opacity hover:opacity-90"
+          className="flex items-center transition-opacity hover:opacity-90"
+          aria-label="The Serenity Haven - Home"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-full text-[#e8d5a8] sha">
-            <span className="text-sm font-medium tracking-[0.22em]"><Logo /></span>
-          </div>
-          <div>
-            <div className="text-[0.56rem] font-medium tracking-[0.28em] text-[#c9a96e] uppercase">The</div>
-            <div className="text-[0.56rem] font-medium tracking-[0.28em] text-[#c9a96e] uppercase">Serenity</div>
-            <div className="text-[0.65rem] italic text-[#faf7f0] font-medium tracking-[0.28em] text-[#c9a96e] uppercase" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Haven</div>
-            {/* <div className="text-lg italic text-[#faf7f0]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-              Haven
-            </div> */}
-          </div>
+          <img
+            src={serenityLogo}
+            alt="The Serenity Haven"
+            className="w-[180px] sm:w-[210px] h-auto"
+          />
         </button>
 
-        <nav className="flex items-center gap-2 rounded-full border border-[#c9a96e]/20 bg-[#1a2419]/60 p-1.5 shadow-[0_10px_30px_rgba(10,18,9,0.2)]">
+        {/* NAVIGATION */}
+        <nav className="flex items-center gap-1 rounded-full border border-[#c9a96e]/20 bg-[#1a2419]/60 p-1.5 shadow-[0_10px_30px_rgba(10,18,9,0.2)]">
+
+          {/* HOME */}
           <button
             type="button"
             onClick={() => onNavigate('home')}
@@ -38,6 +39,8 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
           >
             Home
           </button>
+
+          {/* PACKAGE */}
           <button
             type="button"
             onClick={() => onNavigate('packages')}
@@ -49,6 +52,8 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
           >
             Package
           </button>
+
+          {/* CONTACT */}
           <button
             type="button"
             onClick={() => onNavigate('contact')}
@@ -60,6 +65,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
           >
             Contact Us
           </button>
+
         </nav>
       </div>
     </header>

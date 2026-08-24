@@ -48,21 +48,7 @@ const packages: Package[] = [
     badge: 'POPULAR',
     seatsLeft: 1,
     offerEndsAt: '2026-09-16T13:20:59+05:30',
-  },
-  {
-    id: 'pkg2',
-    title: 'Nourish & Revive Vitality Retreat',
-    subtitle: 'Reconnect with your inner rhythm.',
-    duration: '2 Days, 1 Night',
-    focus: 'Lifestyle Reset with Relaxation & Recreation',
-    inclusions: ['Resort-ambience premium wellness suites', 'Personalized Doctor consultation', 'Satvik & Balanced Meals', 'Morning Yoga and Breathwork', 'Guided Meditation Sessions', 'Fun Group Activities'],
-    complementary: ['Personalized Diet Plans from Doctor', 'Acupuncture/Sujok therapy', 'Health talks & wellness guidance', 'Evening herbal detox drinks'],
-    addOns: ['Spa Therapies'],
-    image: 'https://images.unsplash.com/photo-1540206395-68808572332f?w=900&q=80',
-    badge: 'BEST VALUE',
-    seatsLeft: 1,
-    offerEndsAt: '2026-08-16T13:00:59+05:30',
-  },
+  }
 ];
 
 function PackageCard({ pkg, currentTime, onOpen, onViewDetails }: { pkg: Package; currentTime: Date; onOpen: (p: Package) => void; onViewDetails: () => void }) {

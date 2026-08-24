@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import Logo from './logo';
+import serenityIcon from '../assets/serenity-haven-icon.svg';
 
 export default function Hero() {
   const [scrollY, setScrollY] = useState(0);
@@ -80,15 +80,25 @@ export default function Hero() {
 
         {/* Floating Logo Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-9 h-9 opacity-15 animate-float-slow">
-            <Logo className="w-full h-full" />
-          </div>
-          <div className="absolute top-40 right-20 w-6 h-6 opacity-20 animate-float-medium" style={{ animationDelay: '2s' }}>
-            <Logo className="w-full h-full" />
-          </div>
-          <div className="absolute bottom-40 left-1/4 w-10 h-10 opacity-10 animate-float-slow" style={{ animationDelay: '4s' }}>
-            <Logo className="w-full h-full" />
-          </div>
+        <img
+          src={serenityIcon}
+          alt=""
+          className="absolute top-20 left-10 w-9 h-9 opacity-15 animate-float-slow"
+        />
+      
+        <img
+          src={serenityIcon}
+          alt=""
+          className="absolute top-40 right-20 w-6 h-6 opacity-20 animate-float-medium"
+          style={{ animationDelay: '2s' }}
+        />
+      
+        <img
+          src={serenityIcon}
+          alt=""
+          className="absolute bottom-40 left-1/4 w-10 h-10 opacity-10 animate-float-slow"
+          style={{ animationDelay: '4s' }}
+        />
         </div>
 
         {/* Hero Content */}

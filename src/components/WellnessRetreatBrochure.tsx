@@ -4,6 +4,9 @@ type WellnessRetreatBrochureProps = {
   onBack: () => void;
 };
 
+const BOOKING_URL =
+  'https://bookretreats.com/r/2-day-holistic-wellness-reset-retreat-near-ahmedabad-india';
+
 const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
   return (
     <>
@@ -19,7 +22,7 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
   <div className="hero-content">
     <div className="eyebrow">12–13 September 2026 · 2 Days / 1 Night</div>
     <h1 className="hero-title">A 2-Day<br /><em>Wellness</em> Retreat</h1>
-    <p className="hero-sub">Step away from the routine. Reset your body, calm your mind, and reconnect with you — through yoga, pranayama, meditation, nourishing food and quiet time in nature.</p>
+    <p className="hero-sub">Step away from the routine. Reset your body, calm your mind, and reconnect with you through yoga, pranayama, meditation, nourishing food and quiet time in nature.</p>
     <div className="hero-meta">
       <div className="meta-pill"><div className="k">Check-in</div><div className="v">11:00 AM, Day 1</div></div>
       <div className="meta-pill"><div className="k">Check-out</div><div className="v">10:00 AM, Day 2</div></div>
@@ -29,6 +32,25 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
       </div>
       <div className="meta-pill"><div className="k">Facilitator</div><div className="v">Dr. Aakanksha Koshtim, BNYS</div></div>
     </div>
+    <a
+      href={BOOKING_URL}
+      className="book-now-button"
+      aria-label="Book this wellness retreat on BookRetreats"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '28px',
+        padding: '14px 28px',
+        borderRadius: '999px',
+        background: 'var(--amber, #d89b45)',
+        color: '#1f2d24',
+        fontWeight: 700,
+        textDecoration: 'none',
+      }}
+    >
+      Book Now
+    </a>
   </div>
 </div>
 
