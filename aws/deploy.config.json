@@ -1,0 +1,6 @@
+{
+  "bucket": "theserenityhaven-site",
+  "distributionId": "E1STKZ3JTVWS0G",
+  "lambdaFunction": "serenity-haven-contact",
+  "region": "ap-south-1"
+}

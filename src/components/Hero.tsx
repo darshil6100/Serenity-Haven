@@ -1,77 +1,45 @@
-import { useEffect, useState, useRef } from 'react';
-import serenityIcon from '../assets/serenity-haven-icon.svg';
+import { useEffect, useRef } from 'react';
+import serenityIcon from '../assets/serenity-haven-icon.png';
+
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2000&q=80&auto=format&fit=crop';
 
 export default function Hero() {
-  const [scrollY, setScrollY] = useState(0);
-  const [loaded, setLoaded] = useState(false);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorRingRef = useRef<HTMLDivElement>(null);
-  const mousePos = useRef({ x: 0, y: 0 });
-  const ringPos = useRef({ x: 0, y: 0 });
-  const rafRef = useRef<number>(0);
+  const bgRef = useRef<HTMLDivElement>(null);
 
+  // Parallax via direct style writes so scrolling never re-renders React.
   useEffect(() => {
-    setTimeout(() => setLoaded(true), 100);
-
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
-      if (cursorRef.current) {
-        cursorRef.current.style.left = e.clientX - 4 + 'px';
-        cursorRef.current.style.top = e.clientY - 4 + 'px';
-      }
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (bgRef.current && y < window.innerHeight * 1.2) {
+          bgRef.current.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+        }
+      });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-
-    const animateRing = () => {
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.12;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.12;
-      if (cursorRingRef.current) {
-        cursorRingRef.current.style.left = ringPos.current.x - 18 + 'px';
-        cursorRingRef.current.style.top = ringPos.current.y - 18 + 'px';
-      }
-      rafRef.current = requestAnimationFrame(animateRing);
-    };
-    rafRef.current = requestAnimationFrame(animateRing);
-
-    const interactables = document.querySelectorAll('a, button, .pkg-card, .act-card');
-    const addHover = () => cursorRingRef.current?.classList.add('cursor-ring-hover');
-    const removeHover = () => cursorRingRef.current?.classList.remove('cursor-ring-hover');
-    interactables.forEach(el => {
-      el.addEventListener('mouseenter', addHover);
-      el.addEventListener('mouseleave', removeHover);
-    });
-
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
     };
   }, []);
 
   return (
     <>
-      {/* Global Cursor */}
-      <div ref={cursorRef} className="fixed w-2 h-2 bg-[#c9a96e] rounded-full pointer-events-none z-[99999] mix-blend-multiply transition-transform duration-100" style={{ position: 'fixed' }} />
-      <div ref={cursorRingRef} className="cursor-ring fixed w-9 h-9 border border-[#c9a96e] rounded-full pointer-events-none z-[99998] opacity-60 transition-all duration-150" style={{ position: 'fixed' }} />
-
       <section
         id="hero"
         className="relative min-h-screen bg-[#1a2419] text-white overflow-hidden flex flex-col items-center justify-center"
       >
         {/* Parallax Background */}
-        <div
-          className="absolute inset-0 bg-cover bg-center will-change-transform"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2400&q=90')`,
-            transform: `translateY(${scrollY * 0.4}px) scale(${loaded ? 1 : 1.05})`,
-            transition: loaded ? 'transform 8s ease-out' : 'none',
-          }}
-        />
+        <div ref={bgRef} className="absolute inset-x-0 top-0 -bottom-[20%] will-change-transform">
+          <div
+            className="absolute inset-0 bg-cover bg-center animate-ken-burns"
+            style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+          />
+        </div>
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1209]/50 via-[#1a2419]/40 to-[#0a1209]/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1209]/70 via-[#1a2419]/35 to-[#0a1209]/90" />
 
         {/* Noise Texture */}
         <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{
@@ -79,30 +47,14 @@ export default function Hero() {
         }} />
 
         {/* Floating Logo Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img
-          src={serenityIcon}
-          alt=""
-          className="absolute top-20 left-10 w-9 h-9 opacity-15 animate-float-slow"
-        />
-      
-        <img
-          src={serenityIcon}
-          alt=""
-          className="absolute top-40 right-20 w-6 h-6 opacity-20 animate-float-medium"
-          style={{ animationDelay: '2s' }}
-        />
-      
-        <img
-          src={serenityIcon}
-          alt=""
-          className="absolute bottom-40 left-1/4 w-10 h-10 opacity-10 animate-float-slow"
-          style={{ animationDelay: '4s' }}
-        />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block" aria-hidden="true">
+          <img src={serenityIcon} alt="" className="absolute top-32 left-[8%] w-12 h-auto opacity-[0.18] animate-float-slow" />
+          <img src={serenityIcon} alt="" className="absolute top-48 right-[10%] w-8 h-auto opacity-20 animate-float-medium" style={{ animationDelay: '2s' }} />
+          <img src={serenityIcon} alt="" className="absolute bottom-40 left-1/4 w-10 h-auto opacity-[0.12] animate-float-slow" style={{ animationDelay: '4s' }} />
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto animate-hero-up">
+        <div className="relative z-10 text-center px-6 pt-28 pb-24 max-w-5xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           {/* Eyebrow */}
           <div className="flex items-center justify-center gap-5 mb-8">
             <div className="h-px w-12 bg-[#c9a96e] opacity-60" />
@@ -123,7 +75,7 @@ export default function Hero() {
           </h1>
 
           {/* Sub */}
-          <p className="text-[0.8rem] font-light tracking-[0.4em] text-[#c9a96e]/70 uppercase mt-6 mb-5 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <p className="text-[0.8rem] font-normal tracking-[0.4em] text-[#d9bc85] uppercase mt-6 mb-5 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             Curated for the Mind, Body & Soul
           </p>
 
@@ -170,7 +122,7 @@ export default function Hero() {
 
         {/* Scroll Indicator */}
         <a
-          href="#packages"
+          href="#corporate"
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#c9a96e]/50 no-underline animate-scroll-bounce"
         >
           <div className="w-px h-12 bg-gradient-to-b from-[#c9a96e]/60 to-transparent" />
@@ -179,8 +131,8 @@ export default function Hero() {
       </section>
 
       {/* Stats Bar */}
-      <div className="bg-[#1a2419] border-t border-b border-[#c9a96e]/10 py-8 px-4">
-        <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-10 md:gap-20">
+      <div className="bg-[#1a2419] border-t border-b border-[#c9a96e]/10 py-10 px-4">
+        <div data-reveal className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {[
             { num: '6+', label: 'Curated Packages' },
             { num: '20+', label: 'Activities' },
@@ -191,7 +143,7 @@ export default function Hero() {
               <div className="font-light text-[#e8d5a8] text-[2.5rem] leading-none mb-1" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                 {s.num}
               </div>
-              <div className="text-[0.62rem] font-medium tracking-[0.2em] text-[#a8c4a0]/70 uppercase">
+              <div className="text-[0.62rem] font-medium tracking-[0.2em] text-[#a8c4a0]/85 uppercase">
                 {s.label}
               </div>
             </div>
@@ -199,49 +151,6 @@ export default function Hero() {
         </div>
       </div>
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap');
-
-        body { cursor: none; }
-
-        .cursor-ring-hover {
-          transform: scale(1.8) !important;
-          opacity: 0.3 !important;
-          border-color: #7a9b74 !important;
-        }
-
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        @keyframes float-medium {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-14px) rotate(-5deg); }
-        }
-        @keyframes fade-in-up {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes hero-up {
-          from { opacity: 0; transform: translateY(32px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 1; }
-        }
-        @keyframes scroll-bounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(8px); }
-        }
-
-        .animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
-        .animate-float-medium { animation: float-medium 5s ease-in-out infinite; }
-        .animate-fade-in-up { animation: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) both; opacity: 0; }
-        .animate-hero-up { animation: hero-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
-        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-        .animate-scroll-bounce { animation: scroll-bounce 2.5s ease-in-out infinite; }
-      `}</style>
     </>
   );
 }

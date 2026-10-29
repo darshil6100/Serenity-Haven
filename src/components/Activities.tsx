@@ -73,10 +73,10 @@ export default function Activities() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-20">
+        <div data-reveal className="text-center mb-20">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="h-px w-10 bg-[#7a9b74]" />
-            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#7a9b74] uppercase">
+            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#5f7d59] uppercase">
               Transformative Experiences
             </span>
             <div className="h-px w-10 bg-[#7a9b74]" />
@@ -86,7 +86,7 @@ export default function Activities() {
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
             Activities at{' '}
-            <em className="not-italic italic text-[#4a5e42]">Serenity Haven</em>
+            <em className="italic text-[#5f7d59]">Serenity Haven</em>
           </h2>
           <p className="text-[1rem] text-[#4a5e42] font-light max-w-2xl mx-auto leading-relaxed">
             Immerse yourself in transformative experiences designed to nourish your mind, body, and spirit. Deepen your journey. Connect, create, and rejuvenate.
@@ -94,7 +94,7 @@ export default function Activities() {
         </div>
 
         {/* Activities Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
+        <div data-reveal className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16">
           {activityCategories.map((cat, i) => {
             const Icon = cat.icon;
             return (
@@ -116,7 +116,7 @@ export default function Activities() {
                 >
                   {cat.title}
                 </h3>
-                <p className="italic text-[#c9a96e] text-[0.85rem] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+                <p className="italic text-[#9a7a3e] text-[0.92rem] mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                   {cat.subtitle}
                 </p>
 
@@ -136,13 +136,14 @@ export default function Activities() {
         </div>
 
         {/* Featured Experience Banner */}
-        <div className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(10,18,9,0.15)] border border-[#c9a96e]/15 mb-14">
+        <div data-reveal className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(10,18,9,0.15)] border border-[#c9a96e]/15 mb-14">
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Image */}
             <div className="relative min-h-[350px] order-2 md:order-1">
               <img
                 src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=1000&q=80"
                 alt="Wellness Experience"
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent md:bg-gradient-to-r md:from-[#1a2419]/0 md:to-[#1a2419]/60" />
@@ -162,14 +163,14 @@ export default function Activities() {
               >
                 Lifestyle Reset with Luxury & Recreation
               </h3>
-              <p className="text-[#c9a96e]/70 text-[0.9rem] leading-[1.9] font-light mb-8">
+              <p className="text-[#e8d5a8]/80 text-[0.9rem] leading-[1.9] font-light mb-8">
                 Combine rejuvenating wellness practices with recreational activities that bring joy and connection. Whether you seek adventure or tranquility, our curated selection ensures a balanced and fulfilling experience.
               </p>
               <a
                 href="#contact"
                 className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#c9a96e] to-[#b8924e] text-[#1a2419] text-[0.73rem] font-semibold tracking-[0.18em] uppercase shadow-lg shadow-[#c9a96e]/30 hover:shadow-[#c9a96e]/50 hover:-translate-y-1 transition-all duration-300 w-fit"
               >
-                Learn More
+                Plan Your Reset
                 <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -177,7 +178,7 @@ export default function Activities() {
         </div>
 
         {/* Highlights Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div data-reveal className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {highlights.map((h, i) => {
             const Icon = h.icon;
             return (

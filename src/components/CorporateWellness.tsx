@@ -1,4 +1,5 @@
 import { Stethoscope, MonitorPlay, SlidersHorizontal, ArrowRight, Check } from 'lucide-react';
+import { contactHref } from '../lib/router';
 
 interface OfferingCard {
   icon: typeof Stethoscope;
@@ -17,7 +18,7 @@ const offerings: OfferingCard[] = [
   {
     icon: MonitorPlay,
     title: 'Online Wellness Programs',
-    description: 'A live, guided program delivered over video for distributed, hybrid, or remote teams no travel required.',
+    description: 'A live, guided program delivered over video for distributed, hybrid, or remote teams — no travel required.',
     points: ['Guided yoga, breathwork & meditation sessions', 'Recurring series or single-session formats', 'Works across time zones and office locations'],
   },
   {
@@ -33,10 +34,10 @@ export default function CorporateWellness() {
     <section id="corporate" className="relative py-28 bg-[#faf7f0] overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div data-reveal className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="h-px w-10 bg-[#7a9b74]" />
-            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#7a9b74] uppercase">
+            <span className="text-[0.65rem] font-medium tracking-[0.3em] text-[#5f7d59] uppercase">
               For Organizations
             </span>
             <div className="h-px w-10 bg-[#7a9b74]" />
@@ -45,7 +46,7 @@ export default function CorporateWellness() {
             className="font-light text-[#2d3e26] text-[clamp(2.6rem,5.5vw,4.5rem)] leading-[1.1] mb-5"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            Wellness, Delivered to <em className="not-italic italic text-[#4a5e42]">Your Workplace</em>
+            Wellness, Delivered to <em className="italic text-[#5f7d59]">Your Workplace</em>
           </h2>
           <p className="text-[1rem] text-[#4a5e42] font-light max-w-2xl mx-auto leading-relaxed">
             HR teams and people leaders partner with us to bring meaningful wellness support to their employees on-site, online, or as a fully custom program.
@@ -53,7 +54,7 @@ export default function CorporateWellness() {
         </div>
 
         {/* Offering Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div data-reveal className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {offerings.map((o, i) => {
             const Icon = o.icon;
             return (
@@ -87,7 +88,7 @@ export default function CorporateWellness() {
         </div>
 
         {/* CTA Banner */}
-        <div className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(10,18,9,0.15)] border border-[#c9a96e]/15 bg-[#1a2419] px-8 py-12 md:px-14 md:py-14 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div data-reveal className="relative rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(10,18,9,0.15)] border border-[#c9a96e]/15 bg-[#1a2419] px-8 py-12 md:px-14 md:py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
               <div className="h-px w-6 bg-[#a8c4a0]" />
@@ -99,12 +100,12 @@ export default function CorporateWellness() {
             >
               Let's design a wellness program for your team
             </h3>
-            <p className="text-[#c9a96e]/70 text-[0.88rem] font-light max-w-md">
-              Tell us your team size and goals we'll put together a proposal within one business day.
+            <p className="text-[#e8d5a8]/80 text-[0.88rem] font-light max-w-md">
+              Tell us your team size and goals — we'll put together a proposal within one business day.
             </p>
           </div>
           <a
-            href="#contact"
+            href={contactHref('Custom Corporate Package')}
             className="group inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#c9a96e] to-[#b8924e] text-[#1a2419] text-[0.73rem] font-semibold tracking-[0.18em] uppercase shadow-lg shadow-[#c9a96e]/30 hover:shadow-[#c9a96e]/50 hover:-translate-y-1 transition-all duration-300 whitespace-nowrap flex-shrink-0"
           >
             Request a Proposal

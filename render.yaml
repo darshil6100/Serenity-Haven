@@ -1,0 +1,23 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Render → New → Blueprint → pick this repo. It creates one web service that
+# serves the website and the /api/contact endpoint.
+services:
+  - type: web
+    name: serenity-haven
+    runtime: node
+    region: singapore        # closest Render region to India
+    plan: free               # "starter" keeps the site always awake (no ~1 min wake-up)
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: BREVO_API_KEY
+        sync: false          # you'll be asked for this when creating the Blueprint
+      - key: EMAIL_USER
+        value: serenityhavensupport@gmail.com
+      - key: RECIPIENT_EMAIL
+        value: serenityhavensupport@gmail.com

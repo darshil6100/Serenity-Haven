@@ -1,326 +1,119 @@
-# Serenity Haven - PostgreSQL & Free Email Integration Setup Guide
+# The Serenity Haven — Setup & Deployment
 
-## Overview
-Your contact form is now connected to **PostgreSQL** (database: SerenityHaven) and integrated with **free email services**. When users submit the form:
-1. **Saved to PostgreSQL** - Queries stored in SerenityHaven database
-2. **Sent via Email** - Notification to your email address using free SMTP services
+A React + Vite + Tailwind site. Contact-form enquiries are emailed through
+[Brevo](https://www.brevo.com/). Live at **https://theserenityhaven.in** (hosted on Render).
 
----
-
-## Prerequisites
-
-### 1. **PostgreSQL Installation**
-- Download & install PostgreSQL: https://www.postgresql.org/download/
-- During installation, remember your **postgres password**
-- Default port: 5432
-
-**Verify Installation:**
-```bash
-psql --version
+```
+src/             React app (pages are routed by URL hash: #packages, #contact, #retreat)
+api/contact.ts   Contact handler — validates the form and sends emails via Brevo
+server/index.ts  Production server for Render: serves dist/ + POST /api/contact
+render.yaml      Render Blueprint (one web service)
+aws/             AWS Lambda entry + deploy settings (see AWS_DEPLOY.md)
+scripts/         build-lambda / deploy-aws helpers
+public/          Static files (favicon, retreat brochure images)
 ```
 
-### 2. **Free Email Service** (Choose One)
-Pick one of these free email services:
+## 1. Run locally
 
-#### **Option A: Brevo (Recommended - Easiest)**
-- Sign up: https://www.brevo.com/
-- Free tier: 300 emails/day
-- Get SMTP credentials from Settings > SMTP & API
-- No credit card required initially
-
-#### **Option B: Mailgun**
-- Sign up: https://www.mailgun.com/
-- Free tier: 5,000 emails/month
-- Setup your domain
-- Get SMTP credentials from dashboard
-
-#### **Option C: SendGrid**
-- Sign up: https://sendgrid.com/
-- Free tier: 100 emails/day
-- Create an API key
-- Use `apikey` as username
-
----
-
-## Installation Steps
-
-### Step 1: Create PostgreSQL Database
-Open PowerShell and run:
-
-```bash
-psql -U postgres
-```
-
-Enter your postgres password, then:
-
-```sql
-CREATE DATABASE "SerenityHaven";
-\q
-```
-
-### Step 2: Install Dependencies
 ```bash
 npm install
+cp .env.example .env     # then fill in the three values
+npm run dev              # http://localhost:5173
 ```
 
-### Step 3: Create `.env` File
-Copy `.env.example` to `.env` and fill in your credentials:
+`npm run dev` also serves `/api/contact`, so the contact form works locally.
+Without a `.env` the site runs fine, but the form shows a friendly
+"service unavailable" message with your phone and email.
 
-```bash
-# PostgreSQL Configuration
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_USER=postgres
-DATABASE_PASSWORD=your_postgres_password
-DATABASE_NAME=SerenityHaven
+## 2. Set up Brevo (free: 300 emails/day)
 
-# Choose one email provider below:
+1. Create an account at https://www.brevo.com.
+2. **Senders, Domains & Dedicated IPs → Senders**: add and verify the address you
+   want emails to come from (e.g. `serenityhavensupport@gmail.com`).
+3. **SMTP & API → API Keys**: create a key (it starts with `xkeysib-`).
 
-# ===== BREVO (Recommended) =====
-EMAIL_HOST=smtp-relay.brevo.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your-brevo-smtp-key
-RECIPIENT_EMAIL=owner-email@gmail.com
+| Variable          | Value                                       |
+| ----------------- | ------------------------------------------- |
+| `BREVO_API_KEY`   | The API key from step 3                     |
+| `EMAIL_USER`      | The verified sender address from step 2     |
+| `RECIPIENT_EMAIL` | Inbox that should receive new enquiries     |
 
-# ===== OR MAILGUN =====
-# EMAIL_HOST=smtp.mailgun.org
-# EMAIL_PORT=587
-# EMAIL_USER=postmaster@your-domain.mailgun.org
-# EMAIL_PASSWORD=your-mailgun-key
-# RECIPIENT_EMAIL=owner-email@gmail.com
+Each enquiry sends two emails: a notification to `RECIPIENT_EMAIL` (hit **Reply**
+to answer the visitor directly) and a confirmation to the visitor.
 
-# ===== OR SENDGRID =====
-# EMAIL_HOST=smtp.sendgrid.net
-# EMAIL_PORT=587
-# EMAIL_USER=apikey
-# EMAIL_PASSWORD=your-sendgrid-api-key
-# RECIPIENT_EMAIL=owner-email@gmail.com
+> Keep these variables **without** a `VITE_` prefix. Anything prefixed `VITE_` is
+> bundled into the public JavaScript and anyone could read your API key.
 
-# API Configuration
-VITE_API_URL=http://localhost:3000
+## 3. Deploy to Render
 
-# Server
-PORT=3000
-NODE_ENV=development
-```
+1. Commit and push to the `main` branch on GitHub (the Blueprint deploys `main`).
+2. Render dashboard → **New → Blueprint** → connect GitHub → pick this repo.
+   Render reads `render.yaml`, asks for `BREVO_API_KEY`, and creates the
+   `serenity-haven` web service. First deploy takes a few minutes.
+3. Open the `https://serenity-haven….onrender.com` URL Render shows and test the
+   contact form.
+4. In Brevo → **Security → Authorised IPs**, make sure blocking of unknown IPs is
+   **off** — otherwise Render's servers are rejected with a 401.
 
-### Step 4: Test Connection
-```bash
-npm run dev:server
-```
+Every push to `main` redeploys automatically.
 
-You should see:
-```
-✓ Connected to PostgreSQL
-✓ Database: SerenityHaven
-✓ Email service ready
-```
+**Free vs paid:** on the free plan the service sleeps after 15 minutes without
+visitors, and the next visitor waits about a minute while it wakes up. For a
+business site, switch the service to the **Starter** plan (Settings → Instance
+Type) so it's always instant.
 
----
+### Connect theserenityhaven.in (GoDaddy)
 
-## Running the Application
+1. Render → service → **Settings → Custom Domains → Add** `theserenityhaven.in`.
+   Render also adds `www.theserenityhaven.in` and redirects it to the main domain.
+2. GoDaddy → **My Products → theserenityhaven.in → DNS**, and set:
 
-### Development Mode (Both Frontend & Backend)
-Open **two terminals**:
+   | Type  | Name  | Value                                  |
+   | ----- | ----- | -------------------------------------- |
+   | A     | `@`   | `216.24.57.1`                          |
+   | CNAME | `www` | `serenity-haven.onrender.com` (your exact Render URL, without `https://`) |
 
-**Terminal 1** - Backend:
-```bash
-npm run dev:server
-```
+   Edit the existing `@` A record ("Parked") and `www` CNAME rather than adding
+   duplicates. Delete any **AAAA** records and turn off GoDaddy **Forwarding**.
+3. Back in Render, click **Verify**. Once DNS propagates (minutes, up to a few
+   hours) Render issues a free HTTPS certificate automatically.
 
-**Terminal 2** - Frontend:
-```bash
-npm run dev
-```
+### Run the production server locally
 
-Frontend runs at `http://localhost:5173`  
-Backend runs at `http://localhost:3000`
-
-### Production Build
 ```bash
 npm run build
-npm run preview
+npm start            # http://localhost:10000 (reads env vars from the shell, not .env)
 ```
 
----
+### Other hosts
 
-## Database Schema
+**AWS (S3 + CloudFront + Lambda):** see [AWS_DEPLOY.md](AWS_DEPLOY.md) — always on,
+near-free at this traffic, deployed with `npm run deploy:aws`.
 
-### PostgreSQL `queries` Table
-```sql
-id SERIAL PRIMARY KEY
-name VARCHAR(255) NOT NULL
-email VARCHAR(255) NOT NULL
-phone VARCHAR(20) NOT NULL
-package_interest VARCHAR(255)
-message TEXT NOT NULL
-status VARCHAR(50) DEFAULT 'new'
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-```
+`api/contact.ts` also works as-is as a Vercel function. Any Node 22+ host can run
+`npm run build && npm start`.
 
-**Query Status Values:**
-- `new` - Fresh query, not yet reviewed
-- `read` - Query has been read
-- `responded` - Response sent to customer
+## 4. Updating content
 
----
+| What                         | Where                                        |
+| ---------------------------- | -------------------------------------------- |
+| Packages, seats, offer dates | `packages` array in `src/components/Packages.tsx` |
+| Contact-form package list    | `packageOptions` in `src/components/ContactForm.tsx` |
+| Retreat brochure page        | `src/components/WellnessRetreatBrochure.tsx` |
+| Phone / email                | `ContactForm.tsx`, `Footer.tsx`, `api/contact.ts` |
 
-## Features
+`offerEndsAt` drives the "x days left" badge; once it passes, the card shows
+"Offer ended" and hides the seats-left badge.
 
-### ✓ PostgreSQL Database
-- Reliable open-source relational database
-- Perfect for production use
-- Automatic table creation on first run
-- Indexed for fast queries
+## Scripts
 
-### ✓ Free Email Services
-- No credit card required (most providers)
-- Generous free tiers
-- Professional SMTP integration
-- HTML formatted emails
-
-### ✓ Form Validation
-- All required fields validated
-- Email format checking
-- Error handling
-
-### ✓ Additional API Endpoints
-```
-GET  /api/queries           - Get all queries
-PUT  /api/queries/:id       - Update query status
-POST /api/submit-query      - Submit new query
-```
-
----
-
-## Troubleshooting
-
-### Issue: "FATAL: Ident authentication failed for user 'postgres'"
-- Run: `psql -U postgres -h localhost`
-- Or update .env: `DATABASE_HOST=127.0.0.1`
-
-### Issue: "Connection refused" on port 5432
-- Check PostgreSQL is running:
-  - Windows: Services > PostgreSQL
-  - Or: `pg_ctl status`
-- Restart if needed: `pg_ctl restart`
-
-### Issue: Database "SerenityHaven" doesn't exist
-- Run: `psql -U postgres` and create it:
-  ```sql
-  CREATE DATABASE "SerenityHaven";
-  ```
-
-### Issue: "Email sending failed"
-- Verify credentials in .env file
-- Check email provider SMTP settings
-- Ensure EMAIL_USER and EMAIL_PASSWORD are correct
-- For Brevo: Use API key, not password
-
-### Issue: Can't connect to email provider
-- Check firewall settings
-- Verify email provider SMTP host/port
-- Check EMAIL_HOST spelling
-
----
-
-## File Structure
-
-```
-project/
-├── src/
-│   └── components/
-│       └── ContactForm.tsx          # Updated form component
-│
-├── server/
-│   └── index.ts                     # Express server with PostgreSQL
-│
-├── supabase/
-│   └── migrations/
-│       └── 20260214180515_...sql    # PostgreSQL schema
-│
-├── .env                             # Your credentials (CREATE THIS)
-├── .env.example                     # Template
-└── package.json                     # Dependencies
-```
-
----
-
-## Email Providers Comparison
-
-| Provider | Free Tier | Setup Difficulty | Speed | Notes |
-|----------|-----------|-----------------|-------|-------|
-| **Brevo** | 300/day | ⭐ Easy | Fast | Recommended for beginners |
-| **Mailgun** | 5,000/month | ⭐⭐ Medium | Fast | Domain verification needed |
-| **SendGrid** | 100/day | ⭐⭐ Medium | Very Fast | Popular, reliable |
-
----
-
-## Getting SMTP Keys by Provider
-
-### Brevo
-1. Sign up at https://www.brevo.com
-2. Go to Settings → SMTP & API
-3. Copy SMTP Key (under "SMTP Credentials")
-4. Use as EMAIL_PASSWORD
-
-### Mailgun
-1. Create account at https://www.mailgun.com
-2. Add your domain
-3. Go to Sending → Domain Settings
-4. Copy SMTP credentials (host, user, password)
-
-### SendGrid
-1. Sign up at https://sendgrid.com
-2. Create API Key under Settings → API Keys
-3. Use `apikey` as EMAIL_USER
-4. Use generated key as EMAIL_PASSWORD
-
----
-
-## Next Steps
-
-1. **Install PostgreSQL** if not already installed
-2. **Create SerenityHaven database**
-3. **Sign up for free email service** (pick one above)
-4. **Create .env file** with your credentials
-5. **Run: `npm install`**
-6. **Start both servers** (frontend + backend)
-7. **Test the form** and check your email
-
----
-
-## Support
-
-If you encounter issues:
-1. Check the Troubleshooting section above
-2. Review server logs (console output)
-3. Verify database and email credentials
-4. Ensure PostgreSQL is running
-5. Check email provider SMTP settings
-
----
-
-**Happy querying!** 🌿✨
-```
-
----
-
-## Environment Variables Reference
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `DATABASE_HOST` | ✓ | PostgreSQL host |
-| `DATABASE_PORT` | ✓ | PostgreSQL port (default: 5432) |
-| `DATABASE_USER` | ✓ | PostgreSQL username |
-| `DATABASE_PASSWORD` | ✓ | PostgreSQL password |
-| `DATABASE_NAME` | ✓ | Database name (SerenityHaven) |
-| `EMAIL_HOST` | ✓ | SMTP server host |
-| `EMAIL_PORT` | ✓ | SMTP port (usually 587) |
-| `EMAIL_USER` | ✓ | Email sender address |
-| `EMAIL_PASSWORD` | ✓ | SMTP password/key |
-| `RECIPIENT_EMAIL` | ✓ | Your email to receive notifications |
-| `PORT` | ✗ | Server port (default: 3000) |
-
----
+| Command             | What it does                      |
+| ------------------- | --------------------------------- |
+| `npm run dev`       | Dev server with the contact API   |
+| `npm run build`     | Production build into `dist/`     |
+| `npm start`         | Production server (after build)   |
+| `npm run build:lambda` | Package the contact Lambda (AWS) |
+| `npm run deploy:aws`   | Build + publish to S3/CloudFront/Lambda |
+| `npm run preview`   | Serve the production build        |
+| `npm run lint`      | ESLint                            |
+| `npm run typecheck` | TypeScript check                  |

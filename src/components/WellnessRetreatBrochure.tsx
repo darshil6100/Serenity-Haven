@@ -1,15 +1,13 @@
 import './wellness-retreat-brochure.css';
+import { contactHref } from '../lib/router';
 
 type WellnessRetreatBrochureProps = {
   onBack: () => void;
 };
 
-const BOOKING_URL =
-  'https://bookretreats.com/r/2-day-holistic-wellness-reset-retreat-near-ahmedabad-india';
-
 const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
   return (
-    <>
+    <div className="brochure">
 <div className="hero">
   <img className="bg" src="/package_details/images/about-banner-1.jpg" alt="Resort by the pool at dusk" />
   <div className="hero-top">
@@ -17,39 +15,20 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
       <span aria-hidden="true">←</span>
       Back to Packages
     </button>
-    <div className="seats-badge">Limited seats · Book now</div>
+    <div className="seats-badge">Limited seats · Enquire now</div>
   </div>
   <div className="hero-content">
-    <div className="eyebrow">12–13 September 2026 · 2 Days / 1 Night</div>
+    <div className="eyebrow">2 Days / 1 Night · All-Inclusive Retreat</div>
     <h1 className="hero-title">A 2-Day<br /><em>Wellness</em> Retreat</h1>
     <p className="hero-sub">Step away from the routine. Reset your body, calm your mind, and reconnect with you through yoga, pranayama, meditation, nourishing food and quiet time in nature.</p>
     <div className="hero-meta">
       <div className="meta-pill"><div className="k">Check-in</div><div className="v">11:00 AM, Day 1</div></div>
       <div className="meta-pill"><div className="k">Check-out</div><div className="v">10:00 AM, Day 2</div></div>
-      <div className="meta-pill ">
-        <div className="k">Early bird/until 1st sept</div>
-        <div className="v price-line"><span className="old-price">₹11,999</span><span>₹9,999 / person</span></div>
-      </div>
-      <div className="meta-pill"><div className="k">Facilitator</div><div className="v">Dr. Aakanksha Koshtim, BNYS</div></div>
+      <div className="meta-pill"><div className="k">Pricing</div><div className="v">On request</div></div>
+      <div className="meta-pill"><div className="k">Facilitator</div><div className="v">Dr. Aakanksha Koshti, BNYS</div></div>
     </div>
-    <a
-      href={BOOKING_URL}
-      className="book-now-button"
-      aria-label="Book this wellness retreat on BookRetreats"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: '28px',
-        padding: '14px 28px',
-        borderRadius: '999px',
-        background: 'var(--amber, #d89b45)',
-        color: '#1f2d24',
-        fontWeight: 700,
-        textDecoration: 'none',
-      }}
-    >
-      Book Now
+    <a href={contactHref('2-Day Wellness Retreat')} className="price-request-cta">
+      Enquire now
     </a>
   </div>
 </div>
@@ -146,7 +125,7 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
       
       <div className="day-col">
         <h3>Day One — Arrive & Unwind</h3>
-        <span className="day-date">Saturday, 12th September</span>
+        <span className="day-date">11:00 AM – 9:30 PM</span>
         <div className="trail">
           <div className="trail-item"><div className="time">11:00 AM</div><div className="what">Check-in & Welcome Drink</div><div className="desc">Settle into your room and meet fellow guests over a chilled herbal welcome drink.</div></div>
           <div className="trail-item"><div className="time">12:00 PM</div><div className="what">Orientation Circle</div><div className="desc">An introductory session with Dr. Aakanksha — the "why" behind the next two days.</div></div>
@@ -163,7 +142,7 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
 
       <div className="day-col">
         <h3>Day Two — Practice & Depart</h3>
-        <span className="day-date">Sunday, 13th September</span>
+        <span className="day-date">5:30 AM – 10:00 AM</span>
         <div className="trail">
           <div className="trail-item"><div className="time">5:30 AM</div><div className="what">Sunrise Yoga</div><div className="desc">A full guided asana practice to greet the morning.</div></div>
           <div className="trail-item"><div className="time">6:30 AM</div><div className="what">Herbal Tea</div><div className="desc">Warm, light refreshment before the next session.</div></div>
@@ -226,7 +205,7 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
   </div>
 </section>
 
-<section id="activities">
+<section id="beyond">
   <div className="wrap">
     <div className="sec-head">
       <div className="eyebrow">Beyond The Mat</div>
@@ -238,7 +217,6 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
       <div className="g-item"><img src="/package_details/images/cycling-1.jpg" alt="Cycling on the grounds" /><div className="cap">Leisure Cycling</div></div>
       <div className="g-item"><img src="/package_details/images/corporate-fun.jpg" alt="Group activity" /><div className="cap">Group Fun Activities</div></div>
       <div className="g-item"><img src="/package_details/images/best-resort-near-gandhinagar-17.jpg" alt="Table tennis" /><div className="cap">Table Tennis</div></div>
-      <div className="g-item"><img src="/package_details/images/carrom-board1.jpg" alt="Carrom board" /><div className="cap">Carrom</div></div>
       <div className="g-item"><img src="/package_details/images/card-room2.jpg" alt="Card room" /><div className="cap">Card Room</div></div>
     </div>
   </div>
@@ -251,20 +229,11 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
       <h2>All-Inclusive Package</h2>
     </div>
 
-    <div className="pricing">
-      <div className="price-card">
-        <span className="ribbon">Book before 31 Aug</span>
-        <div className="price-format-card">
-          <div className="price-format-label">Early Bird/Until 1st Sept</div>
-          <div className="price-format-value price-line"><span className="old-price">₹11,999</span><span>₹9,999 / person</span></div>
-        </div>
-        <div className="per">2 Days / 1 Night</div>
-      </div>
-      <div className="price-card featured">
-        <div className="label">Regular Price</div>
-        <div className="amt">₹11,999</div>
-        <div className="per">per person · 2 Days / 1 Night</div>
-      </div>
+    <div className="price-request">
+      <div className="label">Pricing on request</div>
+      <h3>A retreat planned around you</h3>
+      <p>Pricing depends on your room type, group size and preferred dates. Get in touch and we'll share a personalised quote within one business day.</p>
+      <a href={contactHref('2-Day Wellness Retreat')} className="price-request-cta">Contact us for pricing</a>
     </div>
 
     <div className="incl-grid">
@@ -288,12 +257,12 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
       <div>
         <div className="lbl">Check-in</div>
         <div className="big">11:00 AM</div>
-        <div className="sub">Saturday, 12th September 2026. Rooms ready and welcome drink served on arrival.</div>
+        <div className="sub">Rooms ready and welcome drink served on arrival.</div>
       </div>
       <div>
         <div className="lbl">Check-out</div>
         <div className="big">10:00 AM</div>
-        <div className="sub">Sunday, 13th September 2026, right after breakfast and the closing circle.</div>
+        <div className="sub">Right after breakfast and the closing circle.</div>
       </div>
       <div>
         <div className="lbl">What to bring</div>
@@ -346,10 +315,7 @@ const WellnessRetreatBrochure = ({ onBack }: WellnessRetreatBrochureProps) => {
   </div>
 </section>
 
-<footer>
-  
-</footer>
-    </>
+    </div>
   );
 };
 
